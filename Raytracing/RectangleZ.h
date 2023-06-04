@@ -16,7 +16,7 @@ public:
 		this->material = material;
 	}
 
-	virtual bool hit(Ray& ray, HitInfo& hitInfo,double tMin, double tMax)override {
+	virtual bool hit(const Ray& ray, HitInfo& hitInfo,double tMin, double tMax)override {
 
 		Point3 A  = ray.getOrigin();
 		Vec3   b = ray.getDirection();

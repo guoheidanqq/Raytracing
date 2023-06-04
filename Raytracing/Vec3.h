@@ -29,8 +29,8 @@ public:
 
 
 
-	Vec3 operator-(){
-		Vec3 result(this->v[0],this->v[1],this->v[2]);
+	Vec3 operator-() const{
+		Vec3 result(-this->v[0],-this->v[1],-this->v[2]);
 		return result;
 	}
 

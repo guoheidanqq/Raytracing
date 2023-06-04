@@ -167,6 +167,9 @@
     <ClCompile Include="Tools.cpp" />
     <ClCompile Include="Vec3.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="earthmap.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

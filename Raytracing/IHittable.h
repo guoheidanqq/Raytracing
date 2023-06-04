@@ -19,7 +19,7 @@ public:
 
 class IHittable{
 public:
-	virtual bool hit(Ray& ray, HitInfo& hitInfo,double tMin, double tMax) = 0;
+	virtual bool hit(const Ray& ray, HitInfo& hitInfo,double tMin, double tMax) = 0;
 
 
 };

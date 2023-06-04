@@ -24,8 +24,7 @@ public:
 	}
 
 
-	Point3 at(double t){
-
+	Point3 at(double t) const{
 	  return origin + t*dir;
 	}
 

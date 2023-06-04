@@ -5,7 +5,8 @@
 #include "Ray.h"
 #include "IHittable.h"
 
-double hitSphere(Point3& center,double radius,Ray& ray);
+double hitSphere(const Point3& center,double radius,const Ray& ray);
+
 class Sphere :public IHittable{
 
 public:
@@ -14,7 +15,7 @@ public:
 		this->radius = radius;
 		this->material = material;
 	}
-	virtual bool hit(Ray& ray,HitInfo& hitInfo, double tMin =0.f, double tMax = 1000000.f) override{
+	virtual bool hit(const Ray& ray,HitInfo& hitInfo, double tMin =0.f, double tMax = 1000000.f) override{
 		
 		double hitTime = hitSphere(this->center,this->radius,ray);
 		if(hitTime>=0.f&& hitTime>=tMin && hitTime <= tMax){
@@ -27,7 +28,7 @@ public:
 			hitInfo.N = N;
 			hitInfo.hitMaterial = this->material;
 			this->getST(pHit,hitInfo.ss,hitInfo.tt);
-		return true;
+			return true;
 		}
 
 		else return false;
@@ -36,7 +37,7 @@ public:
 	}
 
 
-	void getST(Point3& point, double& ss,double& tt){
+	void getST(const Point3& point, double& ss,double& tt){
 
 		double pi = 3.1415926f;
 		Vec3 vec = point-center;
@@ -45,7 +46,6 @@ public:
         double phi = atan2(-vec.z(), vec.x()) + pi;
         ss = phi / (2*pi);
         tt = theta / pi;	
-	
 	}
 
 
@@ -60,13 +60,14 @@ public:
 
 
 
-double hitSphere(Point3& center,double radius,Ray& ray){
+double hitSphere(const Point3& center,double radius,const Ray& ray){
 
 	Vec3 A = ray.getOrigin();
 	Vec3 B = ray.getDirection();
 	Vec3 C =center;
 	double r = radius;
 
+	B = normal(B);
 	double a = dot(B,B);
 	double b =2*dot(B,A-C);
 	double c  = dot(A-C,A-C)-r*r;
@@ -76,13 +77,9 @@ double hitSphere(Point3& center,double radius,Ray& ray){
 	}
 
 	if(discriminant >= 0.f){	
-		double t= (-b -sqrt(discriminant))/(2*a);
+		double t= (-b -sqrt(discriminant))/(2.f*a);
 		return t;	
 	}
-
-
-
-	
 }
 
 

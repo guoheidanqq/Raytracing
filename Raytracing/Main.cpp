@@ -77,15 +77,20 @@ Color raytracing(Ray& ray,Scene& scene, int level){
 			
 			Color attenuationColor(0.f,0.f,0.f);
 			Ray scatterRay;
-			material->scatter(ray,hitInfo,attenuationColor,scatterRay);
+			bool isScatter = material->scatter(ray,hitInfo,attenuationColor,scatterRay);
+			if (isScatter) {
+				Ray newRay = scatterRay;
 
-			Ray newRay = scatterRay;
+				int nextlevel = level - 1;
+				Color nextHitColor = raytracing(newRay, scene, nextlevel);
 
-			int nextlevel = level-1;
-			Color nextHitColor = raytracing(newRay,scene,nextlevel); 
+				Color newColor = attenuationColor * nextHitColor;
+				return newColor;
+			}
+			if (!isScatter) {
+				return Color(0.f,0.f,0.f);
+			}
 
-			Color newColor = attenuationColor * nextHitColor;
-			return newColor;
 			
 			}
 
@@ -117,9 +122,10 @@ Color raytracing(Ray& ray,Scene& scene, int level){
 
 int main(){
 	//Camera cam(150.f);
-Camera cam(90.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
+//Camera cam(90.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
+Camera cam;
 int Height = 540;
-int Width = Height*cam.Ratio;
+int Width = Height*cam.Ratio;//960 * 540 width * height  render image size  
 
 // world of raytracing book
 Scene world;
@@ -134,68 +140,68 @@ world.add(new Sphere(Point3( 1.0, 0.0, -1.0), 0.5, material_right));
 
 
 
+Scene scene = world;
 
 
-
-// Scene description
-ImageTexture earthmap("earthmap.jpg");
-//Texture* imageTexture = new ImageTexture("earthmap.jpg");
-Texture* earthTexture = new ImageTexture("earthmap.jpg"); 
-
-Color result = earthTexture->getTexture(0,1,Point3());
-
-Lambertian lambert1(Color(0.8f,0.8f,0.0f));//ground color
-Lambertian lambert2(Color(0.7f,0.3f,0.3f));
-Lambertian lambertX(Color(1.0f,0.f,0.f));
-Lambertian lambertY(Color(0.f,0.f,1.f));
-Lambertian lambert3(earthTexture);
-Metal metal1(Color(0.8f,0.8f,0.8f));
-Metal metal2(Color(0.8f,0.6f,0.2f));
-DiffuseLight diffuseLight(new SolidColor(Color(1.f,1.f,1.f)));
-DiffuseLight diffuseLight1(earthTexture);
-
-Scene scene;
-Sphere sp1(Point3(10,5,-10),5.f,&metal1);
-Sphere sp2(Point3(-10,5,-10),5.f,&metal2);
-Sphere sp3(Point3(0,3,-8),2.f,&diffuseLight1);
-Sphere sp4(Point3(0.f,-100.5f,-100.f),100.f,&diffuseLight1);//ground 
-RectangleZ rec1(-200.f,-200.f,200.f,200.f,-200.f,&lambert3);
-RectangleX rec2(-200.f,-200.f,200.f,200.f,-200.f,&lambertX);
-RectangleY rec3(-200.f,-200.f,200.f,200.f,-100.f,&lambertY);
-
-scene.add(&sp1);
-scene.add(&sp2);
-scene.add(&sp3);
-scene.add(&sp4);
-scene.add(&rec1);
-scene.add(&rec2);
-scene.add(&rec3);
-
-//scene = world;
-
-//Cornell box
-
-
-Scene cornellbox;
-Lambertian red(Color(0.65f,0.05f,0.05f));
-Lambertian white(Color(0.73f,0.73f,0.73f));
-Lambertian green(Color(0.12f,0.45f,0.15f));
-Lambertian light(Color(10.f,10.f,10.f));
-RectangleX leftwall(0.f,0.f,555.f,555.f,0.f,&red);
-RectangleX rightwall(0.f,0.f,555.f,555.f,555.f,&green);
-RectangleY buttomwall(0.f,0.f,555.f,555.f,0.f,&white);
-RectangleY topwall(0.f,0.f,555.f,555.f,555.f,&white);
-RectangleY lightwall(213.f,227.f,332.f,343.f,550.f,&white);
-RectangleY backwall(0.f,0.f,555.f,555.f,550.f,&white);
-
-cornellbox.add(&leftwall);
-cornellbox.add(&rightwall);
-cornellbox.add(&buttomwall);
-cornellbox.add(&topwall);
-cornellbox.add(&backwall);
-cornellbox.add(&lightwall);
-
-scene = cornellbox;
+//// Scene description
+//ImageTexture earthmap("earthmap.jpg");
+////Texture* imageTexture = new ImageTexture("earthmap.jpg");
+//Texture* earthTexture = new ImageTexture("earthmap.jpg"); 
+//
+//Color result = earthTexture->getTexture(0,1,Point3());
+//
+//Lambertian lambert1(Color(0.8f,0.8f,0.0f));//ground color
+//Lambertian lambert2(Color(0.7f,0.3f,0.3f));
+//Lambertian lambertX(Color(1.0f,0.f,0.f));
+//Lambertian lambertY(Color(0.f,0.f,1.f));
+//Lambertian lambert3(earthTexture);
+//Metal metal1(Color(0.8f,0.8f,0.8f));
+//Metal metal2(Color(0.8f,0.6f,0.2f));
+//DiffuseLight diffuseLight(new SolidColor(Color(1.f,1.f,1.f)));
+//DiffuseLight diffuseLight1(earthTexture);
+//
+//Scene scene;
+//Sphere sp1(Point3(10,5,-10),5.f,&metal1);
+//Sphere sp2(Point3(-10,5,-10),5.f,&metal2);
+//Sphere sp3(Point3(0,3,-8),2.f,&diffuseLight1);
+//Sphere sp4(Point3(0.f,-100.5f,-100.f),100.f,&diffuseLight1);//ground 
+//RectangleZ rec1(-200.f,-200.f,200.f,200.f,-200.f,&lambert3);
+//RectangleX rec2(-200.f,-200.f,200.f,200.f,-200.f,&lambertX);
+//RectangleY rec3(-200.f,-200.f,200.f,200.f,-100.f,&lambertY);
+//
+//scene.add(&sp1);
+//scene.add(&sp2);
+//scene.add(&sp3);
+//scene.add(&sp4);
+//scene.add(&rec1);
+//scene.add(&rec2);
+//scene.add(&rec3);
+//
+////scene = world;
+//
+////Cornell box
+//
+//
+//Scene cornellbox;
+//Lambertian red(Color(0.65f,0.05f,0.05f));
+//Lambertian white(Color(0.73f,0.73f,0.73f));
+//Lambertian green(Color(0.12f,0.45f,0.15f));
+//Lambertian light(Color(10.f,10.f,10.f));
+//RectangleX leftwall(0.f,0.f,555.f,555.f,0.f,&red);
+//RectangleX rightwall(0.f,0.f,555.f,555.f,555.f,&green);
+//RectangleY buttomwall(0.f,0.f,555.f,555.f,0.f,&white);
+//RectangleY topwall(0.f,0.f,555.f,555.f,555.f,&white);
+//RectangleY lightwall(213.f,227.f,332.f,343.f,550.f,&white);
+//RectangleY backwall(0.f,0.f,555.f,555.f,550.f,&white);
+//
+//cornellbox.add(&leftwall);
+//cornellbox.add(&rightwall);
+//cornellbox.add(&buttomwall);
+//cornellbox.add(&topwall);
+//cornellbox.add(&backwall);
+//cornellbox.add(&lightwall);
+//
+//scene = cornellbox;
 
 /*
 auto red = make_shared<lambertian>(color(.65, .05, .05));
@@ -225,17 +231,18 @@ for(int i = Height-1;i>=0;i-- ){
 	std::cerr << "\rScanlines remaining: " << i << ' ' << std::flush;
 	for(int j = 0;j<Width;j++){
 
-		//i = 350;
+		//i = 270;
 		//j = 480;
+		//j = 720;
 		Color averageColor(0.f,0.f,0.f);
-		int SUB_SAMPLING_NUM = 1;
+		int SUB_SAMPLING_NUM = 100;
 
 		for(int s = 0; s < SUB_SAMPLING_NUM; s++){
 		
 			double u = double(j+rand01())/(Width-1);
 		    double v = double(i+rand01())/(Height-1);
 		    Ray ray = cam.getRay(u,v);
-			int levels = 5;
+			int levels = 50;
 		    Color tracingColor = raytracing(ray,scene,levels);
 			averageColor = averageColor + tracingColor;
 		

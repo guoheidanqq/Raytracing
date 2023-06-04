@@ -8,7 +8,7 @@ class Metal: public Material{
 
 public: 
 	Metal(const Color& albedoColor){
-	this->albedoColor = albedoColor;
+		this->albedoColor = albedoColor;
 	}
 
 	virtual bool scatter(const Ray& inRay, const HitInfo& hitInfo, Color& attenuation, Ray& scatterRay) override{
@@ -19,15 +19,23 @@ public:
 		Vec3 N = hitInfo.N;
 		N = normal(N);
 		Vec3 V = normal(inRay.dir);
-
+		//Vec3 NegN = -N;
 		Vec3 B = dot(V,-N)*N;
 		Vec3 R = V + 2*B;
+		//Vec3 R = V - 2 * dot(V, N) * N;
+		R = normal(R);
 		Ray reflectRay(hitPoint,R);
 		scatterRay = reflectRay;
 
 		attenuation = this->albedoColor;
-		return true;
+		double costheta = dot(scatterRay.dir, N);
+		if (costheta > 0.f) {
+			return true;
+		}
 
+		if (costheta <= 0.f) {
+			return false;
+		}
 	}
 
 public:

@@ -129,4 +129,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="earthmap.jpg">
+      <Filter>Source Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

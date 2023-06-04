@@ -27,8 +27,9 @@ public:
 			Vec3 N = hitInfo.N;
 			N = normal(N);
 			Vec3 center = hitPoint + N;
-			Vec3 vecS =randvec_in_unitsphere(); 
+			Vec3 vecS = normal(randvec_in_unitsphere()); 
 			Vec3 PS = center + vecS;
+			PS = normal(PS);
 			Ray newRay(hitPoint,PS);
 			scatterRay = newRay;
 
@@ -41,7 +42,15 @@ public:
 				attenuation = this->texture->getTexture(ss,tt,hitPoint);
 			}
 
-		return true;
+			double costheta = dot(scatterRay.dir, N);
+			if (costheta > 0.f) {
+				return true;
+			}
+
+			if (costheta <= 0.f) {
+				return false;
+			}
+
 
 	}
 
