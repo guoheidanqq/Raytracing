@@ -23,8 +23,17 @@ public:
 		Vec3 outDir;
 		bool flag = false;
 		if (isFromOutside(inRay,N)) {
-			outDir = refractDirectionFromAirToGlass(inRay,N);
-			flag = true;
+			double r = reflectanceRatio(inRay,N);
+			bool isReflect = r > rand01();
+			if (isReflect) {
+				outDir = reflect(inRay, N);
+				flag = true;
+			}
+			if (!isReflect) {
+				outDir = refractDirectionFromAirToGlass(inRay, N);
+				flag = true;
+			}
+
 		}
 
 		if (isFromInside(inRay,N)) {
@@ -32,9 +41,11 @@ public:
 				outDir = reflect(inRay,N);
 				flag = true;
 			}
+			if (!isInternelReflect(inRay, N)) {
+				outDir = refractDirectionFromGlassToAir(inRay, N);
+				flag = true;
+			}
 
-			outDir = refractDirectionFromGlassToAir(inRay,N);
-			flag = true;
 		
 		}
 		attenuation = Color(1.f,1.f,1.f);
@@ -115,15 +126,34 @@ public:
 	}
 
 
-	Vec3 reflect(const Ray& inray, const Vec3& N) {
+	Vec3 reflect(const Ray& inray, const Vec3& Noutside) {
 	
-		Vec3 N = normal(N);
+		Vec3 N = normal(Noutside);
 		Vec3 V = normal(inray.dir);		
 		Vec3 B = dot(V, -N) * N;
 		Vec3 R = V + 2 * B;
 		//Vec3 R = V - 2 * dot(V, N) * N;
 		R = normal(R);
 		return R;
+	}
+
+
+	double reflectanceRatio(const Ray& inRay, const Vec3& outNormal) {
+		double ni = this->ni;
+		double nt = this->nt;
+		Vec3 Ri = inRay.dir;
+		Vec3 N = outNormal;
+		N = normal(outNormal);
+		Ri = normal(Ri);
+
+		double costhetai = dot(-Ri, N);
+		double R0 = (ni - nt) / (ni + nt);
+		double R2 = R0 * R0;
+		double r = R2 + (1 - R2) * pow((1 - costhetai), 5);
+		r = clamp(r);
+		return r;
+	
+	
 	}
 
 	bool isInternelReflect(const Ray& inRay, const Vec3& outNormal) {

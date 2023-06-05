@@ -20,19 +20,6 @@
 using namespace std;
 
 Color raytracing(Ray& ray,Scene& scene, int level = 5);
-double clamp(double x){
-	if(x>=1.0f){
-		x = 1.f;
-	
-	}
-	if(x<=0.f){
-	 x = 0.f;
-	}
-
-	return x;
-
-
-}
 
 void write_color(ostream& out, Color tracingColor){
 
@@ -133,20 +120,23 @@ Scene world;
 Material* material_ground = new Lambertian(Color(0.8, 0.8, 0.0));
 Material* material_center = new Lambertian(Color(0.7, 0.3, 0.3));
 Material* material_left = new Metal(Color(0.8, 0.8, 0.8));
+Material* material_left_glass = new Glass(1.f,1.5f);
 Material* material_right = new Metal(Color(0.8, 0.6, 0.2));
 world.add(new Sphere(Point3( 0.0, -100.5, -1.0), 100.0, material_ground));
 world.add(new Sphere(Point3( 0.0, 0.0, -1.0), 0.5, material_center));
-world.add(new Sphere(Point3(-1.0, 0.0, -1.0), 0.5, material_left));
+world.add(new Sphere(Point3(-1.0, 0.0, -1.0), 0.5, material_left_glass));
 world.add(new Sphere(Point3( 1.0, 0.0, -1.0), 0.5, material_right));
 
 Glass* glass = new Glass(1.f,1.5f);
 
-Ray rayin(Point3(0.f,0.f,0.f),Vec3(0.2,-0.8,0));
+Ray rayin(Point3(0.f,0.f,0.f),Vec3(1,-0.01,0));
 Vec3 N(0,1,0);
 Vec3 Rt = glass->refractDirectionFromAirToGlass(rayin,N);
 bool isFromoutSide = glass->isFromOutside(rayin,N);
 
 bool isInternalReflect = glass->isInternelReflect(rayin,N);
+double costhetai = 0.01f;
+double r = glass->reflectanceRatio(rayin, N);
 
 
 Scene scene = world;

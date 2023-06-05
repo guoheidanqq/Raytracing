@@ -3,6 +3,18 @@
 #include <cstdlib>
 #include "Vec3.h"
 
+double clamp(double x) {
+	if (x >= 1.0f) {
+		x = 1.f;
+
+	}
+	if (x <= 0.f) {
+		x = 0.f;
+	}
+
+	return x;
+
+}
 
 double rand01(){
 	double result = double(rand())/double(RAND_MAX + 1.0f);
