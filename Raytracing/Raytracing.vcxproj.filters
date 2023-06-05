@@ -72,6 +72,9 @@
     <ClInclude Include="Vec3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Glass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CheckerTexture.cpp">
@@ -126,6 +129,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Vec3.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Glass.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

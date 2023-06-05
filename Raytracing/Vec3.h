@@ -136,6 +136,9 @@ Vec3 cross(const Vec3& a , const Vec3& b){
 
 Vec3 normal(const Vec3& a){
 	double len = a.length();
+	if (fabs(len) <= 0.000000001f) {
+		return Vec3(0.f, 0.f, 0.f);
+	}
 	return Vec3(a.v[0]/len,a.v[1]/len,a.v[2]/len);
 }
 

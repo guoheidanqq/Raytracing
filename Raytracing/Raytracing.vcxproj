@@ -130,6 +130,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CheckerTexture.h" />
     <ClInclude Include="DiffuseLight.h" />
+    <ClInclude Include="Glass.h" />
     <ClInclude Include="IHittable.h" />
     <ClInclude Include="ImageTexture.h" />
     <ClInclude Include="Labertian.h" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="CheckerTexture.cpp" />
     <ClCompile Include="DiffuseLight.cpp" />
+    <ClCompile Include="Glass.cpp" />
     <ClCompile Include="IHittable.cpp" />
     <ClCompile Include="ImageTexture.cpp" />
     <ClCompile Include="Lambertian.cpp" />

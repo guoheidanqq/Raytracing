@@ -14,6 +14,7 @@
 #include "RectangleZ.h"
 #include "RectangleX.h"
 #include "RectangleY.h"
+#include "Glass.h"
 
 
 using namespace std;
@@ -138,6 +139,14 @@ world.add(new Sphere(Point3( 0.0, 0.0, -1.0), 0.5, material_center));
 world.add(new Sphere(Point3(-1.0, 0.0, -1.0), 0.5, material_left));
 world.add(new Sphere(Point3( 1.0, 0.0, -1.0), 0.5, material_right));
 
+Glass* glass = new Glass(1.f,1.5f);
+
+Ray rayin(Point3(0.f,0.f,0.f),Vec3(0.2,-0.8,0));
+Vec3 N(0,1,0);
+Vec3 Rt = glass->refractDirectionFromAirToGlass(rayin,N);
+bool isFromoutSide = glass->isFromOutside(rayin,N);
+
+bool isInternalReflect = glass->isInternelReflect(rayin,N);
 
 
 Scene scene = world;

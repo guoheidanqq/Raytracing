@@ -10,6 +10,8 @@ public:
 
 	Material* hitMaterial;
 
+
+
 	double ss;
 	double tt;
 
