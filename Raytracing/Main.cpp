@@ -124,7 +124,7 @@ Material* material_left_glass = new Glass(1.f,1.5f);
 Material* material_right = new Metal(Color(0.8, 0.6, 0.2));
 world.add(new Sphere(Point3( 0.0, -100.5, -1.0), 100.0, material_ground));
 world.add(new Sphere(Point3( 0.0, 0.0, -1.0), 0.5, material_center));
-world.add(new Sphere(Point3(-1.0, 0.0, -1.0), 0.5, material_left_glass));
+world.add(new Sphere(Point3(-1.0, 0.0, -1.0), 0.5, material_left));
 world.add(new Sphere(Point3( 1.0, 0.0, -1.0), 0.5, material_right));
 
 Glass* glass = new Glass(1.f,1.5f);
@@ -138,7 +138,9 @@ bool isInternalReflect = glass->isInternelReflect(rayin,N);
 double costhetai = 0.01f;
 double r = glass->reflectanceRatio(rayin, N);
 
+Vec3 uintVecincircle = randvec_in_uinit_circle();
 
+	
 Scene scene = world;
 
 

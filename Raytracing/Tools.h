@@ -56,10 +56,20 @@ Vec3 randvec_in_unitsphere(){
 		fortest = Vec3(randab(-1.f,1.f),randab(-1.f,1.f),randab(-1.f,1.f));
 	
 	}
-
 	return fortest;
+}
 
+Vec3 randvec_in_uinit_circle() {
+	Vec3 vec(randab(-1.f, 1.f), randab(-1.f, 1.f), 0);
 
+	while (true) {
+		if (vec.length() <= 1.0f) {
+			break;
+		}
+		vec = Vec3(randab(-1.f, 1.f), randab(-1.f, 1.f), 0);
+
+	}
+	return vec;
 
 }
 

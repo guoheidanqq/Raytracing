@@ -9,7 +9,16 @@ class Metal: public Material{
 public: 
 	Metal(const Color& albedoColor){
 		this->albedoColor = albedoColor;
+		this->roughness = 0.6f;
+		
 	}
+
+	Metal(const Color& albedoColor,double roughness) {
+		this->albedoColor = albedoColor;
+		this->roughness = roughness;
+
+	}
+
 
 	virtual bool scatter(const Ray& inRay, const HitInfo& hitInfo, Color& attenuation, Ray& scatterRay) override{
 		
@@ -24,7 +33,11 @@ public:
 		Vec3 R = V + 2*B;
 		//Vec3 R = V - 2 * dot(V, N) * N;
 		R = normal(R);
-		Ray reflectRay(hitPoint,R);
+		Vec3 varyVec  = this->roughness * randvec_in_unitsphere();
+		Vec3 roughR = R + varyVec;
+		roughR = normal(roughR);
+
+		Ray reflectRay(hitPoint,roughR);
 		scatterRay = reflectRay;
 
 		attenuation = this->albedoColor;
@@ -41,6 +54,7 @@ public:
 public:
 
 	Color albedoColor;
+	double roughness;
 
 };
 
