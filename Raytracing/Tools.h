@@ -74,6 +74,27 @@ Vec3 randvec_in_uinit_circle() {
 }
 
 
+int rand012(double a, double b, double c) {
+	// precondition a + b + c = 1
+	double U = rand01();
+	int result; 
+	if (U >= 0 && U <= a) {
+		result = 0;
+	}
+
+	if (U >= a && U <= a + b) {
+		result = 1;
+	}
+
+	if (U >= a + b && U <= 1.f) {
+		result = 2;
+	}
+
+	return result;
+
+}
+
+
 
 
 #endif

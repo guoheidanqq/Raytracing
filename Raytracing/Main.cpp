@@ -105,6 +105,42 @@ Color raytracing(Ray& ray,Scene& scene, int level){
 
 }
 
+Scene RandomSpheres() {
+	Scene randomScene;
+	const double radius = 0.2;
+	Material* material_ground = new Lambertian(Color(0.8, 0.8, 0.0));
+	Material* material_lambertian = new Lambertian(Color(0.7, 0.3, 0.3));
+	Material* material_metal = new Metal(Color(0.8, 0.8, 0.8));
+	Material* material_glass = new Glass(1.f, 1.5f);
+	
+
+
+	for (int a = -11; a <= 11; a++) {
+		for (int b = -11; b <= 11; b++) {
+			Point3 center(a,radius,b);
+			Sphere* sphere_ab = new Sphere(center,radius,material_lambertian);
+			randomScene.add(sphere_ab);		
+		}	
+	}
+
+	Sphere* glassSphere = new Sphere(Point3(0.f,1.f,0.f),1.f,material_glass);
+	Sphere* metalSphere = new Sphere(Point3(4.f,1.f,0.f),1.f,material_metal);
+	Sphere* labertianSphere = new Sphere(Point3(-4.f,1.f,0.f),1.f,material_lambertian);
+	randomScene.add(glassSphere);
+	randomScene.add(metalSphere);
+	randomScene.add(labertianSphere);
+	return randomScene;
+
+
+
+
+
+
+
+
+}
+
+
 
 
 
@@ -142,6 +178,11 @@ Vec3 uintVecincircle = randvec_in_uinit_circle();
 
 	
 Scene scene = world;
+
+for (int i = 0; i <= 100; i++) {
+	cout << rand012(0.33, 0.33, 0.34) << endl;;
+}
+
 
 
 //// Scene description
