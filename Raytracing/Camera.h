@@ -69,7 +69,7 @@ public:
 		this->Ratio = Ratiotmp;
 		this->Width = W;
 		this->Height = H;
-		this->aperture = 0.1f;
+		this->aperture = 0.0f;
 	
 	
 	}

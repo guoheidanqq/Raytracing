@@ -117,9 +117,30 @@ Scene RandomSpheres() {
 
 	for (int a = -11; a <= 11; a++) {
 		for (int b = -11; b <= 11; b++) {
-			Point3 center(a,radius,b);
-			Sphere* sphere_ab = new Sphere(center,radius,material_lambertian);
-			randomScene.add(sphere_ab);		
+			Point3 center(a + rand01(), radius, b+ rand01());
+			int MATERIAL_TYPE = random012(0.8, 0.15, 0.05);
+			if (MATERIAL_TYPE == 0) {
+				//add lambertian 
+				Color randomColor(rand01(), rand01(), rand01());
+				Lambertian* lamberMaterial= new Lambertian(randomColor);
+				Sphere* sphere_ab = new Sphere(center, radius, lamberMaterial);
+				randomScene.add(sphere_ab);
+			}
+
+			if (MATERIAL_TYPE == 1) {
+				// add metal
+				Color randomColor(rand01(), rand01(), rand01());
+				Metal* metalMaterial = new Metal(randomColor);
+				Sphere* sphere_ab = new Sphere(center, radius, metalMaterial);
+				randomScene.add(sphere_ab);
+			}
+
+			if (MATERIAL_TYPE == 2) {
+				//add glass				
+				Glass* glassMaterial = new Glass(1.f,1.5f);
+				Sphere* sphere_ab = new Sphere(center, radius, glassMaterial);
+				randomScene.add(sphere_ab);			
+			}
 		}	
 	}
 
@@ -132,12 +153,6 @@ Scene RandomSpheres() {
 	return randomScene;
 
 
-
-
-
-
-
-
 }
 
 
@@ -147,7 +162,9 @@ Scene RandomSpheres() {
 int main(){
 	//Camera cam(150.f);
 //Camera cam(90.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
-Camera cam;
+//Camera cam;
+
+Camera cam(50.f,Point3(13.f,2.f,3.f),Point3(0.f,0.f,0.f),Vec3(0.f,1.f,0.f));
 int Height = 540;
 int Width = Height*cam.Ratio;//960 * 540 width * height  render image size  
 
@@ -177,11 +194,12 @@ double r = glass->reflectanceRatio(rayin, N);
 Vec3 uintVecincircle = randvec_in_uinit_circle();
 
 	
-Scene scene = world;
+//Scene scene = world;
+Scene scene = RandomSpheres();
 
-for (int i = 0; i <= 100; i++) {
-	cout << rand012(0.33, 0.33, 0.34) << endl;;
-}
+//for (int i = 0; i <= 100; i++) {
+//	cout << random012(0.33, 0.33, 0.34) << endl;;
+//}
 
 
 
@@ -263,6 +281,8 @@ objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
 
 
 //renderer
+int SUB_SAMPLING_NUM = 100;
+int levels = 50;
 cout<<"P3"<<endl;
 cout<<Width;
 cout<<" ";
@@ -277,14 +297,14 @@ for(int i = Height-1;i>=0;i-- ){
 		//j = 480;
 		//j = 720;
 		Color averageColor(0.f,0.f,0.f);
-		int SUB_SAMPLING_NUM = 100;
+		
 
 		for(int s = 0; s < SUB_SAMPLING_NUM; s++){
 		
 			double u = double(j+rand01())/(Width-1);
 		    double v = double(i+rand01())/(Height-1);
 		    Ray ray = cam.getRay(u,v);
-			int levels = 50;
+			
 		    Color tracingColor = raytracing(ray,scene,levels);
 			averageColor = averageColor + tracingColor;
 		
@@ -298,6 +318,9 @@ for(int i = Height-1;i>=0;i-- ){
 	}
 
 }
+
+
+
 
 
 return 0;
