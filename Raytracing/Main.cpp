@@ -15,6 +15,7 @@
 #include "RectangleX.h"
 #include "RectangleY.h"
 #include "Glass.h"
+#include "AABB.h"
 
 
 using namespace std;
@@ -112,44 +113,54 @@ Scene RandomSpheres() {
 	Material* material_lambertian = new Lambertian(Color(0.7, 0.3, 0.3));
 	Material* material_metal = new Metal(Color(0.8, 0.8, 0.8));
 	Material* material_glass = new Glass(1.f, 1.5f);
-	
+	Sphere* glassSphere = new Sphere(Point3(0.f, 1.f, 0.f), 1.f, material_glass);
+	Sphere* metalSphere = new Sphere(Point3(4.f, 1.f, 0.f), 1.f, material_metal);
+	Sphere* labertianSphere = new Sphere(Point3(-4.f, 1.f, 0.f), 1.f, material_lambertian);
+	randomScene.add(glassSphere);
+	randomScene.add(metalSphere);
+	randomScene.add(labertianSphere);
 
 
 	for (int a = -11; a <= 11; a++) {
 		for (int b = -11; b <= 11; b++) {
 			Point3 center(a + rand01(), radius, b+ rand01());
-			int MATERIAL_TYPE = random012(0.8, 0.15, 0.05);
-			if (MATERIAL_TYPE == 0) {
-				//add lambertian 
-				Color randomColor(rand01(), rand01(), rand01());
-				Lambertian* lamberMaterial= new Lambertian(randomColor);
-				Sphere* sphere_ab = new Sphere(center, radius, lamberMaterial);
-				randomScene.add(sphere_ab);
+			Vec3 disVec = center - metalSphere->center;
+			if (disVec.length() > 0.9) {
+				int MATERIAL_TYPE = random012(0.8, 0.15, 0.05);
+				if (MATERIAL_TYPE == 0) {
+					//add lambertian 
+					Color randomColor1(rand01(), rand01(), rand01());
+					Color randomColor2(rand01(), rand01(), rand01());
+					Color randomColor = randomColor1 * randomColor2;
+					Lambertian* lamberMaterial = new Lambertian(randomColor);
+					Sphere* sphere_ab = new Sphere(center, radius, lamberMaterial);
+					randomScene.add(sphere_ab);
+				}
+
+				if (MATERIAL_TYPE == 1) {
+					// add metal
+					double a = 0.5;
+					double b = 1.f;
+					Color randomColor(randab(a, b), randab(a, b), randab(a, b));
+					Metal* metalMaterial = new Metal(randomColor);
+					Sphere* sphere_ab = new Sphere(center, radius, metalMaterial);
+					randomScene.add(sphere_ab);
+				}
+
+				if (MATERIAL_TYPE == 2) {
+					//add glass				
+					Glass* glassMaterial = new Glass(1.f, 1.5f);
+					Sphere* sphere_ab = new Sphere(center, radius, glassMaterial);
+					randomScene.add(sphere_ab);
+				}
 			}
 
-			if (MATERIAL_TYPE == 1) {
-				// add metal
-				Color randomColor(rand01(), rand01(), rand01());
-				Metal* metalMaterial = new Metal(randomColor);
-				Sphere* sphere_ab = new Sphere(center, radius, metalMaterial);
-				randomScene.add(sphere_ab);
-			}
 
-			if (MATERIAL_TYPE == 2) {
-				//add glass				
-				Glass* glassMaterial = new Glass(1.f,1.5f);
-				Sphere* sphere_ab = new Sphere(center, radius, glassMaterial);
-				randomScene.add(sphere_ab);			
-			}
+
 		}	
 	}
 
-	Sphere* glassSphere = new Sphere(Point3(0.f,1.f,0.f),1.f,material_glass);
-	Sphere* metalSphere = new Sphere(Point3(4.f,1.f,0.f),1.f,material_metal);
-	Sphere* labertianSphere = new Sphere(Point3(-4.f,1.f,0.f),1.f,material_lambertian);
-	randomScene.add(glassSphere);
-	randomScene.add(metalSphere);
-	randomScene.add(labertianSphere);
+
 	return randomScene;
 
 
@@ -162,9 +173,11 @@ Scene RandomSpheres() {
 int main(){
 	//Camera cam(150.f);
 //Camera cam(90.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
-//Camera cam;
+Camera cam;
 
-Camera cam(50.f,Point3(13.f,2.f,3.f),Point3(0.f,0.f,0.f),Vec3(0.f,1.f,0.f));
+
+// random scene render camera
+//Camera cam(30.f,Point3(13.f,2.f,3.f),Point3(0.f,0.f,0.f),Vec3(0.f,1.f,0.f));
 int Height = 540;
 int Width = Height*cam.Ratio;//960 * 540 width * height  render image size  
 
@@ -192,6 +205,15 @@ double costhetai = 0.01f;
 double r = glass->reflectanceRatio(rayin, N);
 
 Vec3 uintVecincircle = randvec_in_uinit_circle();
+Ray testRay(Point3(0.f, 0.f, 0.f), Vec3(0, 0, -1));
+AABB aabb(Point3(-1.f,-1.f,-1.f),Point3(1.f,1.f,1.f));
+
+bool isHit = aabb.hit(testRay,0.01f,1000.f);
+bool reuslt = aabb.isOverlap(-1.f,1.f,0.5f,3.f);
+double a = 1;
+double b = 2; 
+aabb.swap(a,b);
+
 
 	
 //Scene scene = world;
@@ -281,8 +303,8 @@ objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
 
 
 //renderer
-int SUB_SAMPLING_NUM = 100;
-int levels = 50;
+int SUB_SAMPLING_NUM = 1;
+int levels = 5;
 cout<<"P3"<<endl;
 cout<<Width;
 cout<<" ";
