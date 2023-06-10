@@ -4,6 +4,7 @@
 #include "Vec3.h"
 #include "Ray.h"
 #include "IHittable.h"
+#include "AABB.h"
 
 double hitSphere(const Point3& center,double radius,const Ray& ray);
 
@@ -14,6 +15,9 @@ public:
 		this->center = center;
 		this->radius = radius;
 		this->material = material;
+		this->boundingBox = AABB(center-Vec3(radius,radius,radius),center + Vec3(radius,radius,radius));
+
+
 	}
 	virtual bool hit(const Ray& ray,HitInfo& hitInfo, double tMin =0.f, double tMax = 1000000.f) override{
 		
@@ -36,6 +40,17 @@ public:
 
 	}
 
+	virtual bool hitBoundingBox(const Ray& ray, double tMin, double tMax) const override {
+	
+		bool isHit = this->boundingBox.hit(ray, tMin,tMax);
+
+		return isHit;
+
+	}
+	virtual AABB getBoundingBox()const override {
+	
+		return this->boundingBox;
+	}
 
 	void getST(const Point3& point, double& ss,double& tt){
 
@@ -54,6 +69,8 @@ public:
 	Point3 center;
 	double radius;
 	Material* material;
+
+	AABB boundingBox;
 
 };
 

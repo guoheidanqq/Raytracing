@@ -119,6 +119,20 @@ public:
 
 
 
+AABB  addBoundingBox(const AABB& aBox, const AABB& bBox) {
+	
+	double xmin = fmin(aBox.minPoint.x(),bBox.minPoint.x());
+	double ymin = fmin(aBox.minPoint.y(),bBox.minPoint.y());
+	double zmin = fmin(aBox.minPoint.z(), bBox.minPoint.z());
+
+	double xmax = fmax(aBox.maxPoint.x(),bBox.maxPoint.x());
+	double ymax = fmax(aBox.maxPoint.y(),bBox.maxPoint.y());
+	double zmax = fmax(aBox.maxPoint.z(),bBox.maxPoint.z());
+	AABB result(Point3(xmin, ymin, zmin), Point3(xmax,ymax,zmax));
+
+	return result;
+}
+
 
 
 
