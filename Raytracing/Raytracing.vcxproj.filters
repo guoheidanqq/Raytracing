@@ -78,6 +78,9 @@
     <ClInclude Include="AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BVH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CheckerTexture.cpp">
@@ -135,6 +138,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Glass.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BVH_H.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

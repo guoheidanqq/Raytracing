@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include "Vec3.h"
 #include "Ray.h"
@@ -16,6 +17,8 @@
 #include "RectangleY.h"
 #include "Glass.h"
 #include "AABB.h"
+#include "BVH.h"
+
 
 
 using namespace std;
@@ -31,6 +34,12 @@ out<<int(clamp(tracingColor.x())*255)<<" "<<int(clamp(tracingColor.y())*255)<<" 
 }
 
 
+
+Color raytracingBVH(Ray& ray,const BVH& scene,int level) {
+
+
+	return Color(0.f,0.f,0.f);
+}
 
 
 
@@ -120,7 +129,6 @@ Scene RandomSpheres() {
 	randomScene.add(metalSphere);
 	randomScene.add(labertianSphere);
 
-
 	for (int a = -11; a <= 11; a++) {
 		for (int b = -11; b <= 11; b++) {
 			Point3 center(a + rand01(), radius, b+ rand01());
@@ -192,32 +200,56 @@ world.add(new Sphere(Point3( 0.0, -100.5, -1.0), 100.0, material_ground));
 world.add(new Sphere(Point3( 0.0, 0.0, -1.0), 0.5, material_center));
 world.add(new Sphere(Point3(-1.0, 0.0, -1.0), 0.5, material_left));
 world.add(new Sphere(Point3( 1.0, 0.0, -1.0), 0.5, material_right));
-
-Glass* glass = new Glass(1.f,1.5f);
-
-Ray rayin(Point3(0.f,0.f,0.f),Vec3(1,-0.01,0));
-Vec3 N(0,1,0);
-Vec3 Rt = glass->refractDirectionFromAirToGlass(rayin,N);
-bool isFromoutSide = glass->isFromOutside(rayin,N);
-
-bool isInternalReflect = glass->isInternelReflect(rayin,N);
-double costhetai = 0.01f;
-double r = glass->reflectanceRatio(rayin, N);
-
-Vec3 uintVecincircle = randvec_in_uinit_circle();
-Ray testRay(Point3(0.f, 0.f, 0.f), Vec3(0, 0, -1));
-AABB aabb(Point3(-1.f,-1.f,-1.f),Point3(1.f,1.f,1.f));
-
-bool isHit = aabb.hit(testRay,0.01f,1000.f);
-bool reuslt = aabb.isOverlap(-1.f,1.f,0.5f,3.f);
-double a = 1;
-double b = 2; 
-aabb.swap(a,b);
+//
+//
+//
+//const double radius = 0.2;
+////Material* material_ground = new Lambertian(Color(0.8, 0.8, 0.0));
+//Material* material_lambertian = new Lambertian(Color(0.7, 0.3, 0.3));
+//Material* material_metal = new Metal(Color(0.8, 0.8, 0.8));
+//Material* material_glass = new Glass(1.f, 1.5f);
+//Sphere* glassSphere = new Sphere(Point3(0.f, 1.f, 0.f), 1.f, material_glass);
+//Sphere* metalSphere = new Sphere(Point3(4.f, 1.f, 0.f), 1.f, material_metal);
+//Sphere* labertianSphere = new Sphere(Point3(-4.f, 1.f, 0.f), 1.f, material_lambertian);
+//bool result = compareHittable_X(*glassSphere, *metalSphere);
+//bool result1 = compareHittable_X(*glassSphere, *labertianSphere);
+//
+//
+//Glass* glass = new Glass(1.f,1.5f);
+//
+//Ray rayin(Point3(0.f,0.f,0.f),Vec3(1,-0.01,0));
+//Vec3 N(0,1,0);
+//Vec3 Rt = glass->refractDirectionFromAirToGlass(rayin,N);
+//bool isFromoutSide = glass->isFromOutside(rayin,N);
+//
+//bool isInternalReflect = glass->isInternelReflect(rayin,N);
+//double costhetai = 0.01f;
+//double r = glass->reflectanceRatio(rayin, N);
+//
+//Vec3 uintVecincircle = randvec_in_uinit_circle();
+//Ray testRay(Point3(0.f, 0.f, 0.f), Vec3(0, 0, -1));
+//AABB aabb(Point3(-1.f,-1.f,-1.f),Point3(1.f,1.f,1.f));
+//
+//bool isHit = aabb.hit(testRay,0.01f,1000.f);
+//bool reuslt = aabb.isOverlap(-1.f,1.f,0.5f,3.f);
+//double a = 1;
+//double b = 2; 
+//aabb.swap(a,b);
 
 
 	
 //Scene scene = world;
 Scene scene = RandomSpheres();
+
+BVH bvh(scene);
+bvh.inOrderTravel(bvh.root);
+//Scene sortedScene = scene;
+//sort(sortedScene.scene.begin(),sortedScene.scene.end(),compareHittable_X);
+
+
+
+
+
 
 //for (int i = 0; i <= 100; i++) {
 //	cout << random012(0.33, 0.33, 0.34) << endl;;

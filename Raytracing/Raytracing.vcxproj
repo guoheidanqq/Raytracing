@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="BVH.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CheckerTexture.h" />
     <ClInclude Include="DiffuseLight.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Vec3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BVH_H.cpp" />
     <ClCompile Include="CheckerTexture.cpp" />
     <ClCompile Include="DiffuseLight.cpp" />
     <ClCompile Include="Glass.cpp" />
