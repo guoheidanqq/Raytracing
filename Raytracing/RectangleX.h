@@ -14,6 +14,10 @@ public:
 		this->y1 = y1;
 		this->X0  = X0;
 		this->material = material;
+		double depth = 1.f;
+		Point3 minPoint(this->X0 - depth, this->y0, this->z0);
+		Point3 maxPoint(this->X0 + depth, this->y1, this->z1);
+		this->boundingBox = AABB(minPoint, maxPoint);
 	}
 
 	virtual bool hit(const Ray& ray, HitInfo& hitInfo,double tMin, double tMax)override {
@@ -51,18 +55,17 @@ public:
 			}
 		
 		}
-
-		
-
-
-	
-	
-	
-
 		return false;
 	}
 
+	virtual bool hitBoundingBox(const Ray& ray, double tMin, double tMax) const override {
+		bool isHit = this->boundingBox.hit(ray, tMin, tMax);
+		return isHit;
+	}
+	virtual AABB getBoundingBox()const {
 
+		return this->boundingBox;
+	}
 
 
 
@@ -75,6 +78,7 @@ public:
 	double y1;
 	double X0;
 	Material* material;
+	AABB boundingBox;
 };
 
 

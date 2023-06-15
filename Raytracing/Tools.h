@@ -7,10 +7,10 @@ bool compareHittable_X(const IHittable* a, const IHittable* b) {
 	double axMin = a->getBoundingBox().minPoint.x();
 	double bxMin = b->getBoundingBox().minPoint.x();
 
-	if (axMin <= bxMin) {
+	if (axMin < bxMin) {
 		return true;
 	}
-	if (axMin > bxMin) {
+	if (axMin >= bxMin) {
 
 		return false;
 	}
@@ -19,10 +19,10 @@ bool compareHittable_Y(const IHittable* a, const IHittable* b) {
 	double ayMin = a->getBoundingBox().minPoint.y();
 	double byMin = b->getBoundingBox().minPoint.y();
 
-	if (ayMin <= byMin) {
+	if (ayMin < byMin) {
 		return true;
 	}
-	if (ayMin > byMin) {
+	if (ayMin >= byMin) {
 
 		return false;
 	}
@@ -33,10 +33,10 @@ bool compareHittable_Z(const IHittable* a, const IHittable* b) {
 	double azMin = a->getBoundingBox().minPoint.z();
 	double bzMin = b->getBoundingBox().minPoint.z();
 
-	if (azMin <= bzMin) {
+	if (azMin < bzMin) {
 		return true;
 	}
-	if (azMin > bzMin) {
+	if (azMin >= bzMin) {
 
 		return false;
 	}
@@ -133,6 +133,7 @@ int random012(double a, double b, double c) {
 	return result;
 
 }
+
 
 
 

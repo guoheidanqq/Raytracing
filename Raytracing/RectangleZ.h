@@ -52,17 +52,18 @@ public:
 		
 		}
 
-		
-
-
-	
-	
-	
-
 		return false;
 	}
 
 
+	virtual bool hitBoundingBox(const Ray& ray, double tMin, double tMax) const override {
+
+		return false;
+	}
+	virtual AABB getBoundingBox()const {
+
+		return AABB();
+	}
 
 
 

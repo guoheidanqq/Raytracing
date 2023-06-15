@@ -115,6 +115,23 @@ Color raytracing(Ray& ray,Scene& scene, int level){
 
 }
 
+
+Scene fourSpheres() {
+	Scene world;
+	Material* material_ground = new Lambertian(Color(0.8, 0.8, 0.0));
+	Material* material_center = new Lambertian(Color(0.7, 0.3, 0.3));
+	Material* material_left = new Metal(Color(0.8, 0.8, 0.8));
+	Material* material_left_glass = new Glass(1.f, 1.5f);
+	Material* material_right = new Metal(Color(0.8, 0.6, 0.2));
+	world.add(new Sphere(Point3(0.0, -100.5, -1.0), 100.0, material_ground));
+	world.add(new Sphere(Point3(0.0, 0.0, -1.0), 0.5, material_center));
+	world.add(new Sphere(Point3(-1.0, 0.0, -1.0), 0.5, material_left));
+	world.add(new Sphere(Point3(1.0, 0.0, -1.0), 0.5, material_right));
+	return world;
+}
+
+
+
 Scene RandomSpheres() {
 	Scene randomScene;
 	const double radius = 0.2;
@@ -175,13 +192,39 @@ Scene RandomSpheres() {
 }
 
 
+Scene cornellbox() {
+	//Cornell box	
+	
+	Scene cornellboxScene;
+	Lambertian red(Color(0.65f,0.05f,0.05f));
+	Lambertian white(Color(0.73f,0.73f,0.73f));
+	Lambertian green(Color(0.12f,0.45f,0.15f));
+	Lambertian light(Color(10.f,10.f,10.f));
+	RectangleX leftwall(0.f,0.f,555.f,555.f,0.f,&red);
+	RectangleX rightwall(0.f,0.f,555.f,555.f,555.f,&green);
+	//RectangleY buttomwall(0.f,0.f,555.f,555.f,0.f,&white);
+	//RectangleY topwall(0.f,0.f,555.f,555.f,555.f,&white);
+	//RectangleY lightwall(213.f,227.f,332.f,343.f,550.f,&white);
+	//RectangleY backwall(0.f,0.f,555.f,555.f,550.f,&white);
+	
+	cornellboxScene.add(&leftwall);
+	cornellboxScene.add(&rightwall);
+	//cornellbox.add(&buttomwall);
+	//cornellbox.add(&topwall);
+	//cornellbox.add(&backwall);
+	//cornellbox.add(&lightwall);
+
+	return cornellboxScene;
+}
+
+
 
 
 
 int main(){
-	//Camera cam(150.f);
-//Camera cam(90.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
-Camera cam;
+//Camera cam(150.f);
+Camera cam(90.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
+//Camera cam;
 
 
 // random scene render camera
@@ -200,60 +243,25 @@ world.add(new Sphere(Point3( 0.0, -100.5, -1.0), 100.0, material_ground));
 world.add(new Sphere(Point3( 0.0, 0.0, -1.0), 0.5, material_center));
 world.add(new Sphere(Point3(-1.0, 0.0, -1.0), 0.5, material_left));
 world.add(new Sphere(Point3( 1.0, 0.0, -1.0), 0.5, material_right));
-//
-//
-//
-//const double radius = 0.2;
-////Material* material_ground = new Lambertian(Color(0.8, 0.8, 0.0));
-//Material* material_lambertian = new Lambertian(Color(0.7, 0.3, 0.3));
-//Material* material_metal = new Metal(Color(0.8, 0.8, 0.8));
-//Material* material_glass = new Glass(1.f, 1.5f);
-//Sphere* glassSphere = new Sphere(Point3(0.f, 1.f, 0.f), 1.f, material_glass);
-//Sphere* metalSphere = new Sphere(Point3(4.f, 1.f, 0.f), 1.f, material_metal);
-//Sphere* labertianSphere = new Sphere(Point3(-4.f, 1.f, 0.f), 1.f, material_lambertian);
-//bool result = compareHittable_X(*glassSphere, *metalSphere);
-//bool result1 = compareHittable_X(*glassSphere, *labertianSphere);
-//
-//
-//Glass* glass = new Glass(1.f,1.5f);
-//
-//Ray rayin(Point3(0.f,0.f,0.f),Vec3(1,-0.01,0));
-//Vec3 N(0,1,0);
-//Vec3 Rt = glass->refractDirectionFromAirToGlass(rayin,N);
-//bool isFromoutSide = glass->isFromOutside(rayin,N);
-//
-//bool isInternalReflect = glass->isInternelReflect(rayin,N);
-//double costhetai = 0.01f;
-//double r = glass->reflectanceRatio(rayin, N);
-//
-//Vec3 uintVecincircle = randvec_in_uinit_circle();
-//Ray testRay(Point3(0.f, 0.f, 0.f), Vec3(0, 0, -1));
-//AABB aabb(Point3(-1.f,-1.f,-1.f),Point3(1.f,1.f,1.f));
-//
-//bool isHit = aabb.hit(testRay,0.01f,1000.f);
-//bool reuslt = aabb.isOverlap(-1.f,1.f,0.5f,3.f);
-//double a = 1;
-//double b = 2; 
-//aabb.swap(a,b);
-
-
 	
 //Scene scene = world;
-Scene scene = RandomSpheres();
-
-BVH bvh(scene);
-bvh.inOrderTravel(bvh.root);
-//Scene sortedScene = scene;
-//sort(sortedScene.scene.begin(),sortedScene.scene.end(),compareHittable_X);
-
-
+//Scene randomScene = RandomSpheres();
+//Scene fourSphereScene = fourSpheres();
+Scene cornelboxScene = cornellbox();
+//BVH* bvh = new BVH(fourSphereScene);
+//BVH* bvhRandomScene = new BVH(randomScene);
+BVH* bvhCornelbox = new BVH(cornelboxScene);
 
 
+Scene scene;
+scene.add(bvhCornelbox);
 
 
-//for (int i = 0; i <= 100; i++) {
-//	cout << random012(0.33, 0.33, 0.34) << endl;;
-//}
+
+
+
+
+
 
 
 
@@ -293,27 +301,7 @@ bvh.inOrderTravel(bvh.root);
 //
 ////scene = world;
 //
-////Cornell box
-//
-//
-//Scene cornellbox;
-//Lambertian red(Color(0.65f,0.05f,0.05f));
-//Lambertian white(Color(0.73f,0.73f,0.73f));
-//Lambertian green(Color(0.12f,0.45f,0.15f));
-//Lambertian light(Color(10.f,10.f,10.f));
-//RectangleX leftwall(0.f,0.f,555.f,555.f,0.f,&red);
-//RectangleX rightwall(0.f,0.f,555.f,555.f,555.f,&green);
-//RectangleY buttomwall(0.f,0.f,555.f,555.f,0.f,&white);
-//RectangleY topwall(0.f,0.f,555.f,555.f,555.f,&white);
-//RectangleY lightwall(213.f,227.f,332.f,343.f,550.f,&white);
-//RectangleY backwall(0.f,0.f,555.f,555.f,550.f,&white);
-//
-//cornellbox.add(&leftwall);
-//cornellbox.add(&rightwall);
-//cornellbox.add(&buttomwall);
-//cornellbox.add(&topwall);
-//cornellbox.add(&backwall);
-//cornellbox.add(&lightwall);
+
 //
 //scene = cornellbox;
 
@@ -335,7 +323,7 @@ objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
 
 
 //renderer
-int SUB_SAMPLING_NUM = 1;
+int SUB_SAMPLING_NUM = 100;
 int levels = 5;
 cout<<"P3"<<endl;
 cout<<Width;

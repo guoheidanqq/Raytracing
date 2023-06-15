@@ -9,6 +9,9 @@ class BVHNode : public IHittable {
 
 public:
 	BVHNode() {
+		this->left = nullptr;
+		this->right = nullptr;
+
 	}
 
 	BVHNode( const Scene& nodeScene) {
@@ -19,8 +22,22 @@ public:
 		Scene sortedScene = nodeScene;
 		Scene leftScene;
 		Scene rightScene;
+
+		//int chooseAxis = random012(0.33f,0.33f,0.34f);
+		int chooseAxis = 0;
+		if (chooseAxis == 0) {
+			std::sort(sortedScene.scene.begin(), sortedScene.scene.end(), compareHittable_X);
+		}
+		if (chooseAxis == 1) {
+			std::sort(sortedScene.scene.begin(), sortedScene.scene.end(), compareHittable_Y);
+		}
+
+		if (chooseAxis == 2) {
 		
-		std::sort(sortedScene.scene.begin(), sortedScene.scene.end(), compareHittable_X);
+			std::sort(sortedScene.scene.begin(), sortedScene.scene.end(), compareHittable_Z);
+		}
+		
+		
 
 		if (NUM_OBJECTS == 1) {
 			this->left = nullptr;
@@ -68,13 +85,37 @@ public:
 	virtual bool hit(const Ray& ray, HitInfo& hitInfo, double tMin, double tMax)  override{
 		bool isHitBoundgingBox = this->boundingBox.hit(ray,tMin,tMax);
 		if (isHitBoundgingBox == true) {
-			bool isHitLeft  = 	this->left->hit(ray,hitInfo,tMin,tMax);
+			// handle leaf node 
+			if (this->left == nullptr && this->right == nullptr) {
+				bool hitLeaf = this->nodeScene.hit(ray, hitInfo, tMin, tMax);
+				return hitLeaf;
+			}
+
+
+			//handle left 
+			bool isHitLeft = false;
+			if (this->left == nullptr) {
+				isHitLeft = false;
+			}
+			if (this->left != nullptr){ 
+				isHitLeft= this->left->hit(ray, hitInfo, tMin, tMax);
+			}			
+			
 			if (isHitLeft) {
 				double tHitRight = hitInfo.hitTime;
 				tMax = tHitRight;			
 			}
 			
-			bool isHitRight =   this->right->hit(ray,hitInfo,tMin,tMax);
+			//handle right
+			bool isHitRight = false;
+			if (this->right == nullptr) {
+				isHitRight = false;
+			}
+			if (this->right != nullptr) {
+				isHitRight =  this->right->hit(ray, hitInfo, tMin, tMax);
+			}
+
+				
 
 			bool hitResult = isHitLeft || isHitRight;
 			return hitResult;			
