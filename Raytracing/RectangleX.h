@@ -7,12 +7,15 @@
 
 class RectangleX:public IHittable{
 public:
-	RectangleX(double y0,double z0, double y1,double z1, double X0,Material* material){
-		this->z0 = z0;
-		this->z1 = z1;
+	RectangleX(double X0,double y0,double z0, double X1, double y1,double z1, Material* material){
+		this->X0 = X0;
+		this->X1 = X0;
 		this->y0 = y0;
 		this->y1 = y1;
-		this->X0  = X0;
+		this->z0 = z0;
+		this->z1 = z1;
+
+		
 		this->material = material;
 		double depth = 1.f;
 		Point3 minPoint(this->X0 - depth, this->y0, this->z0);
@@ -62,7 +65,7 @@ public:
 		bool isHit = this->boundingBox.hit(ray, tMin, tMax);
 		return isHit;
 	}
-	virtual AABB getBoundingBox()const {
+	virtual AABB getBoundingBox()const override{
 
 		return this->boundingBox;
 	}
@@ -72,11 +75,13 @@ public:
 
 
 public:
-	double z0;
-	double z1;
+
+	double X0;
+	double X1;
 	double y0;
 	double y1;
-	double X0;
+	double z0;
+	double z1;
 	Material* material;
 	AABB boundingBox;
 };

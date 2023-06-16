@@ -196,22 +196,22 @@ Scene cornellbox() {
 	//Cornell box	
 	
 	Scene cornellboxScene;
-	Lambertian red(Color(0.65f,0.05f,0.05f));
-	Lambertian white(Color(0.73f,0.73f,0.73f));
-	Lambertian green(Color(0.12f,0.45f,0.15f));
-	Lambertian light(Color(10.f,10.f,10.f));
-	RectangleX leftwall(0.f,0.f,555.f,555.f,0.f,&red);
-	RectangleX rightwall(0.f,0.f,555.f,555.f,555.f,&green);
-	//RectangleY buttomwall(0.f,0.f,555.f,555.f,0.f,&white);
-	//RectangleY topwall(0.f,0.f,555.f,555.f,555.f,&white);
+	Lambertian* red = new Lambertian(Color(0.65f,0.05f,0.05f));
+	Lambertian* white = new Lambertian(Color(0.73f,0.0f,0.73f));
+	Lambertian* green = new Lambertian(Color(0.12f,0.45f,0.15f));
+	Lambertian* light = new Lambertian(Color(10.f,10.f,10.f));
+	RectangleX* leftwall = new RectangleX(0.f,0.f,0.f,0.f,555.f,555.f,green);
+	RectangleX* rightwall = new RectangleX(555.f, 0.f, 0.f, 555.f, 555.f, 555.f,red);
+	RectangleY* buttomwall = new RectangleY(0.f,0.f,0.f,555.f,0.f,555.f,green);
+	RectangleY* topwall = new RectangleY(0.f, 555.f, 0.f, 555.f, 555.f, 555.f,green);
 	//RectangleY lightwall(213.f,227.f,332.f,343.f,550.f,&white);
-	//RectangleY backwall(0.f,0.f,555.f,555.f,550.f,&white);
+	RectangleZ* backwall = new RectangleZ(0.f,0.f,0.f,555.f,555.f,0.f,green);
 	
-	cornellboxScene.add(&leftwall);
-	cornellboxScene.add(&rightwall);
-	//cornellbox.add(&buttomwall);
-	//cornellbox.add(&topwall);
-	//cornellbox.add(&backwall);
+	cornellboxScene.add(leftwall);
+	cornellboxScene.add(rightwall);
+	cornellboxScene.add(buttomwall);
+	cornellboxScene.add(topwall);
+	cornellboxScene.add(backwall);
 	//cornellbox.add(&lightwall);
 
 	return cornellboxScene;
@@ -223,7 +223,7 @@ Scene cornellbox() {
 
 int main(){
 //Camera cam(150.f);
-Camera cam(90.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
+Camera cam(40.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
 //Camera cam;
 
 
@@ -254,7 +254,8 @@ BVH* bvhCornelbox = new BVH(cornelboxScene);
 
 
 Scene scene;
-scene.add(bvhCornelbox);
+scene = cornelboxScene;
+//scene.add(bvhCornelbox);
 
 
 
@@ -323,8 +324,8 @@ objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
 
 
 //renderer
-int SUB_SAMPLING_NUM = 100;
-int levels = 5;
+int SUB_SAMPLING_NUM = 1;
+int levels = 20;
 cout<<"P3"<<endl;
 cout<<Width;
 cout<<" ";

@@ -23,8 +23,8 @@ public:
 		Scene leftScene;
 		Scene rightScene;
 
-		//int chooseAxis = random012(0.33f,0.33f,0.34f);
-		int chooseAxis = 0;
+		int chooseAxis = random012(0.33f,0.33f,0.34f);
+		//int chooseAxis = 0;
 		if (chooseAxis == 0) {
 			std::sort(sortedScene.scene.begin(), sortedScene.scene.end(), compareHittable_X);
 		}
