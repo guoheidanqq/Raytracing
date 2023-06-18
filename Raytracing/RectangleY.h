@@ -7,7 +7,7 @@
 
 class RectangleY:public IHittable{
 public:
-	RectangleY(double x0,double Y0, double z0,double x1, double Y1, double z1,Material* material){
+	RectangleY(double x0, double Y0, double z0, double x1, double Y1, double z1, Material* material, bool isFrontFace = true) {
 
 		this->x0 = x0;
 		this->x1 = x1;
@@ -21,6 +21,8 @@ public:
 		Point3 minPoint(this->x0 , this->Y0 - depth, this->z0);
 		Point3 maxPoint(this->x0 , this->Y0 + depth, this->z1);
 		this->boundingBox = AABB(minPoint, maxPoint);
+
+		this->isFrontFace = isFrontFace;
 	}
 
 	virtual bool hit(const Ray& ray, HitInfo& hitInfo,double tMin, double tMax)override {
@@ -46,7 +48,14 @@ public:
 			    
 					hitInfo.hitTime = t;
 					hitInfo.hitPoint = hitPoint;
-					hitInfo.N = Vec3(0.f,1.f,0.f);
+
+					if (this->isFrontFace == true) {
+						hitInfo.N = Vec3(0.f, 1.f, 0.f);
+					}
+					if (this->isFrontFace == false) {
+						hitInfo.N = Vec3(0.f, -1.f, 0.f);
+					}
+
 					hitInfo.hitMaterial = this->material;
 					hitInfo.ss = (z-z0)/(z1-z0);
 					hitInfo.tt = (x-x0)/(x1-x0);
@@ -86,6 +95,8 @@ public:
 	double z1;
 	Material* material;
 	AABB boundingBox;
+
+	bool isFrontFace;
 };
 
 

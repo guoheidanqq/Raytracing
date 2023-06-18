@@ -5,9 +5,10 @@
 
 class DiffuseLight :public Material{
 public:
-	DiffuseLight(Texture* const texture){
+	DiffuseLight( Texture*   const texture){
 		this->texture = texture;
 	}
+	
 
 
 	virtual bool isLightMaterial() override{
