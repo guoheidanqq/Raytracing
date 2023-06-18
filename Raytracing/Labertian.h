@@ -29,7 +29,7 @@ public:
 			Vec3 center = hitPoint + N;
 			Vec3 vecS = normal(randvec_in_unitsphere()); 
 			Vec3 PS = center + vecS;
-			PS = normal(PS);
+			PS = normal(PS - hitPoint);
 			Ray newRay(hitPoint,PS);
 			scatterRay = newRay;
 

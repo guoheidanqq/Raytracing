@@ -15,11 +15,12 @@ public:
 		this->Z0  = Z0;
 		this->Z1 = Z1;
 
+
 		this->material = material;
 
 		double depth = 1.f;
 		Point3 minPoint(this->x0 , this->y0, this->Z0 - depth);
-		Point3 maxPoint(this->x0 , this->y1, this->Z0 + depth);
+		Point3 maxPoint(this->x1 , this->y1, this->Z1 + depth);
 		this->boundingBox = AABB(minPoint, maxPoint);
 
 		this->isFrontFace = isFrontFace;

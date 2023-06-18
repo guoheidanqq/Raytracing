@@ -19,7 +19,7 @@ public:
 		this->material = material;
 		double depth = 1.f;
 		Point3 minPoint(this->X0 - depth, this->y0, this->z0);
-		Point3 maxPoint(this->X0 + depth, this->y1, this->z1);
+		Point3 maxPoint(this->X1 + depth, this->y1, this->z1);
 		this->boundingBox = AABB(minPoint, maxPoint);
 
 		this->isFrontFace = isFrontFace;

@@ -192,7 +192,7 @@ Scene cornellbox() {
 	
 	Scene cornellboxScene;
 	Lambertian* red = new Lambertian(Color(0.65f,0.05f,0.05f));
-	Lambertian* white = new Lambertian(Color(0.73f,0.73f,0.0f));
+	Lambertian* white = new Lambertian(Color(0.73f,0.73f,0.73f));
 	Lambertian* green = new Lambertian(Color(0.12f,0.45f,0.15f));
 	DiffuseLight* light = new DiffuseLight(new SolidColor(10.f,10.f,10.f));
 
@@ -202,14 +202,14 @@ Scene cornellbox() {
 	RectangleY* buttomwall = new RectangleY(0.f,0.f,0.f,555.f,0.f,555.f,white,true);
 	RectangleY* topwall = new RectangleY(0.f, 555.f, 0.f, 555.f, 555.f, 555.f,white,false);//reverse front face
 	RectangleY* lightwall = new RectangleY(213.f,550.f,227.f,343.f, 550.f,337.f,light,false);
-	RectangleZ* backwall = new RectangleZ(0.f,0.f,0.f,555.f,555.f,555.f,white,false);// reverse front face
+	RectangleZ* backwall = new RectangleZ(0.f,0.f,555.f,555.f,555.f,555.f,white,false);// reverse front face
 	
 	cornellboxScene.add(leftwall);
-	//cornellboxScene.add(rightwall);
-	//cornellboxScene.add(buttomwall);
-	//cornellboxScene.add(topwall);
-	///cornellboxScene.add(backwall);
-	//cornellboxScene.add(lightwall);
+	cornellboxScene.add(rightwall);
+	cornellboxScene.add(buttomwall);
+	cornellboxScene.add(topwall);
+	cornellboxScene.add(backwall);
+	cornellboxScene.add(lightwall);
 
 	return cornellboxScene;
 }
@@ -251,8 +251,8 @@ BVH* bvhCornelbox = new BVH(cornelboxScene);
 
 
 Scene scene;
-scene = cornelboxScene;
-//scene.add(bvhCornelbox);
+//scene = cornelboxScene;
+scene.add(bvhCornelbox);
 
 
 
@@ -321,7 +321,7 @@ objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
 
 
 //renderer
-int SUB_SAMPLING_NUM = 1;
+int SUB_SAMPLING_NUM = 100;
 int levels = 10;
 cout<<"P3"<<endl;
 cout<<Width;
@@ -333,7 +333,7 @@ for(int i = Height-1;i>=0;i-- ){
 	std::cerr << "\rScanlines remaining: " << i << ' ' << std::flush;
 	for(int j = 0;j<Width;j++){
 
-		//i = 270;
+		//i = 500;
 		//j = 480;
 		//j = 720;
 		Color averageColor(0.f,0.f,0.f);
