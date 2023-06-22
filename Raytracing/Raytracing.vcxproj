@@ -131,6 +131,7 @@
     <ClInclude Include="BVH.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CheckerTexture.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="DiffuseLight.h" />
     <ClInclude Include="Glass.h" />
     <ClInclude Include="IHittable.h" />
@@ -148,11 +149,13 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tools.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vec3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BVH_H.cpp" />
     <ClCompile Include="CheckerTexture.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DiffuseLight.cpp" />
     <ClCompile Include="Glass.cpp" />
     <ClCompile Include="IHittable.cpp" />

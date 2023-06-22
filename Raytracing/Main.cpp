@@ -18,7 +18,8 @@
 #include "Glass.h"
 #include "AABB.h"
 #include "BVH.h"
-
+#include "Cube.h"
+#include "Transform.h"
 
 
 using namespace std;
@@ -204,12 +205,17 @@ Scene cornellbox() {
 	RectangleY* lightwall = new RectangleY(213.f,550.f,227.f,343.f, 550.f,337.f,light,false);
 	RectangleZ* backwall = new RectangleZ(0.f,0.f,555.f,555.f,555.f,555.f,white,false);// reverse front face
 	
+	Cube* tallCube=new Cube(Point3(130, 0, 65),Point3(295, 165, 230),white);
+	Cube* shortCube = new Cube(Point3(265, 0, 295),Point3(430, 330, 460),white);
 	cornellboxScene.add(leftwall);
 	cornellboxScene.add(rightwall);
 	cornellboxScene.add(buttomwall);
 	cornellboxScene.add(topwall);
 	cornellboxScene.add(backwall);
 	cornellboxScene.add(lightwall);
+	cornellboxScene.add(tallCube);
+	cornellboxScene.add(shortCube);
+
 
 	return cornellboxScene;
 }
@@ -228,6 +234,26 @@ Camera cam(40.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,
 //Camera cam(30.f,Point3(13.f,2.f,3.f),Point3(0.f,0.f,0.f),Vec3(0.f,1.f,0.f));
 int Height = 540;
 int Width = Height*cam.Ratio;//960 * 540 width * height  render image size  
+
+
+Matrix a(1,0,0,1,
+	     0,1,0,2,
+	     0,0,1,3,
+	     0,0,0,1);
+
+Matrix b(1, 0, 0, 4,
+		0, 1, 0, 5,
+		0, 0, 1, 6,
+		0, 0, 0, 1);
+Matrix c = multiply(a,b);
+double adet = a.det();
+a.inverse();
+
+
+//
+
+
+
 
 // world of raytracing book
 Scene world;
@@ -251,8 +277,8 @@ BVH* bvhCornelbox = new BVH(cornelboxScene);
 
 
 Scene scene;
-//scene = cornelboxScene;
-scene.add(bvhCornelbox);
+scene = cornelboxScene;
+//scene.add(bvhCornelbox);
 
 
 
@@ -333,7 +359,7 @@ for(int i = Height-1;i>=0;i-- ){
 	std::cerr << "\rScanlines remaining: " << i << ' ' << std::flush;
 	for(int j = 0;j<Width;j++){
 
-		//i = 500;
+		//i = 525;
 		//j = 480;
 		//j = 720;
 		Color averageColor(0.f,0.f,0.f);
