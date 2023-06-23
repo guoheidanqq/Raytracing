@@ -3,6 +3,11 @@
 #include <cstdlib>
 #include "Vec3.h"
 
+double radian2degree(double radian) {
+	const double pi = 3.1415926f;
+	return pi / 180.f * radian;
+}
+
 bool compareHittable_X(const IHittable* a, const IHittable* b) {
 	double axMin = a->getBoundingBox().minPoint.x();
 	double bxMin = b->getBoundingBox().minPoint.x();

@@ -136,6 +136,7 @@
     <ClInclude Include="Glass.h" />
     <ClInclude Include="IHittable.h" />
     <ClInclude Include="ImageTexture.h" />
+    <ClInclude Include="InstanceFactory.h" />
     <ClInclude Include="Labertian.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Metal.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Glass.cpp" />
     <ClCompile Include="IHittable.cpp" />
     <ClCompile Include="ImageTexture.cpp" />
+    <ClCompile Include="InstanceFactory.cpp" />
     <ClCompile Include="Lambertian.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />

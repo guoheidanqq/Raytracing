@@ -20,6 +20,7 @@
 #include "BVH.h"
 #include "Cube.h"
 #include "Transform.h"
+#include "InstanceFactory.h"
 
 
 using namespace std;
@@ -248,6 +249,12 @@ Matrix b(1, 0, 0, 4,
 Matrix c = multiply(a,b);
 double adet = a.det();
 a.inverse();
+Transform transform;
+transform.begin();
+//transform.scale(1, 2, 3);
+//transform.rotateY(45.f);
+transform.tranlate(1,2,3);
+transform.end();
 
 
 //
@@ -266,7 +273,16 @@ world.add(new Sphere(Point3( 0.0, -100.5, -1.0), 100.0, material_ground));
 world.add(new Sphere(Point3( 0.0, 0.0, -1.0), 0.5, material_center));
 world.add(new Sphere(Point3(-1.0, 0.0, -1.0), 0.5, material_left));
 world.add(new Sphere(Point3( 1.0, 0.0, -1.0), 0.5, material_right));
-	
+
+
+//
+Sphere* sphere = new Sphere(Point3(0.0, 0, 0), 1.f, material_ground);
+
+InstanceFactory translateSphere(sphere,transform);
+AABB boundingBox = translateSphere.boundingBox;
+
+
+
 //Scene scene = world;
 //Scene randomScene = RandomSpheres();
 //Scene fourSphereScene = fourSpheres();

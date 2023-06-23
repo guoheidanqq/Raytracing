@@ -136,23 +136,140 @@ Matrix inverse(const Matrix& a) {
 
 class Transform {
 public:
+	Transform() {
+		transMat.setIdentity();	
+		invTransMat.setIdentity();
+	}
 
-	void tranlate(double dx, double dy ,double dz) {}
+
+	void begin() {
+		transMat.setIdentity();
+		invTransMat.setIdentity();
+	}
+
+	void end() {
+		invTransMat=inverse(transMat);
+	}
+	void tranlate(double dx, double dy ,double dz) {
+		Matrix translateMat(1.f,0.f,0.f,dx,
+							0.f,1.f,0.f,dy,
+							0.f,0.f,1.f,dz,
+							0.f,0.f,0.f,1.f);
+		Matrix result = multiply(translateMat,transMat);
+		transMat = result;
+	}
 
 	void scale(double sx, double sy, double sz) {
+		Matrix scaleMat(sx, 0.f, 0.f, 0.f,
+						0.f, sy, 0.f, 0.f,
+						0.f, 0.f, sz, 0.f,
+						0.f, 0.f, 0.f, 1.f);
+		Matrix result = multiply(scaleMat, transMat);
+		transMat = result;
+
 	}
 
-	void rotateX(double deltaTheta) {}
-
-	void rotateY(double deltaTheta) {
+	void rotateX(double degree) {
+		// delta Theta in degree 
+		double theta = radian2degree(degree);
+		Matrix rotateXMat( 1.f,       0.f,          0.f,  0.f,
+							0.f, cos(theta), -sin(theta), 0.f,
+							0.f, sin(theta), cos(theta),  0.f,
+							0.f,        0.f,        0.f,  1.f);
+		Matrix result = multiply(rotateXMat, transMat);
+		transMat = result;
+	
 	}
-	void rotateZ(double deltaTheta) {}
+
+	void rotateY(double degree) {
+		double theta = radian2degree(degree);
+		Matrix rotateYMat(cos(theta), 0.f, sin(theta), 0.f,
+								0.f,  1.f,       0.f,  0.f,
+						  -sin(theta), 0.f, cos(theta), 0.f,
+							0.f, 0.f, 0.f, 1.f);
+		Matrix result = multiply(rotateYMat, transMat);
+		transMat = result;
+
+	}
+	void rotateZ(double degree) {
+		double theta = radian2degree(degree);
+		Matrix rotateZMat(cos(theta), -sin(theta), 0.f, 0.f,
+						   sin(theta), cos(theta), 0.f, 0.f,
+								  0.f,        0.f,  1.f, 0.f,
+							      0.f,         0.f, 0.f, 1.f);
+		Matrix result = multiply(rotateZMat, transMat);
+		transMat = result;
+	
+	}
+
+	Point3 applyToPoint(const Point3& point) const {
+		
+		double a = transMat.mat[0][0];
+		double b = transMat.mat[0][1];
+		double c = transMat.mat[0][2];
+		double d = transMat.mat[0][3];
+		double e = transMat.mat[1][0];
+		double f = transMat.mat[1][1];
+		double g = transMat.mat[1][2];
+		double h = transMat.mat[1][3];
+		double i = transMat.mat[2][0];
+		double j = transMat.mat[2][1];
+		double k = transMat.mat[2][2];
+		double l = transMat.mat[2][3];
+		double m = transMat.mat[3][0];
+		double n = transMat.mat[3][1];
+		double o = transMat.mat[3][2];
+		double p = transMat.mat[3][3];
+		double x = point.x();
+		double y = point.y();
+		double z = point.z();
+		double newX = a * x + b * y + c * z + d;
+		double newY = e * x + f * y + g * z + h;
+		double newZ = i * x + j * y + k * z + l;
+		double newW = m * x + n * y + o * z + p;
+
+		return Point3(newX,newY,newZ);
+	}
+
+	Vec3 applyToVector(const Vec3& vec) const {
+
+		double a = transMat.mat[0][0];
+		double b = transMat.mat[0][1];
+		double c = transMat.mat[0][2];
+		double d = transMat.mat[0][3];
+		double e = transMat.mat[1][0];
+		double f = transMat.mat[1][1];
+		double g = transMat.mat[1][2];
+		double h = transMat.mat[1][3];
+		double i = transMat.mat[2][0];
+		double j = transMat.mat[2][1];
+		double k = transMat.mat[2][2];
+		double l = transMat.mat[2][3];
+		double m = transMat.mat[3][0];
+		double n = transMat.mat[3][1];
+		double o = transMat.mat[3][2];
+		double p = transMat.mat[3][3];
+		double x = vec.x();
+		double y = vec.y();
+		double z = vec.z();
+		double newX = a * x + b * y + c * z;
+		double newY = e * x + f * y + g * z;
+		double newZ = i * x + j * y + k * z;
+		double newW = m * x + n * y + o * z;
+
+		return Vec3(newX, newY, newZ);
+
+	}
+
 
 
 
 public:
+
 	Matrix transMat;
 	Matrix invTransMat;
+
+
 
 
 };
