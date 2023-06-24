@@ -206,17 +206,46 @@ Scene cornellbox() {
 	RectangleY* lightwall = new RectangleY(213.f,550.f,227.f,343.f, 550.f,337.f,light,false);
 	RectangleZ* backwall = new RectangleZ(0.f,0.f,555.f,555.f,555.f,555.f,white,false);// reverse front face
 	
-	Cube* tallCube=new Cube(Point3(130, 0, 65),Point3(295, 165, 230),white);
-	Cube* shortCube = new Cube(Point3(265, 0, 295),Point3(430, 330, 460),white);
+	Cube* shortCube=new Cube(Point3(130, 0, 65),Point3(295, 165, 230),white);
+	Cube* tallCube = new Cube(Point3(265, 0, 295),Point3(430, 330, 460),white);
+	Point3 shortCubeCenter = (Point3(130, 0, 65) + Point3(295, 165, 230)) / 2.f;
+	Point3 tallCubeCenter = (Point3(265, 0, 295) + Point3(430, 330, 460)) / 2.f;
+
+	Transform transformTallCube;
+	transformTallCube.begin();
+	double x = tallCubeCenter.x();
+	double y = tallCubeCenter.y();
+	double z = tallCubeCenter.z();
+	transformTallCube.tranlate(-x,-y,-z);
+	transformTallCube.rotateY(15);
+	transformTallCube.tranlate(x,y,z);
+	transformTallCube.end();
+
+	Transform tfShortCube;
+	tfShortCube.begin();
+
+
+	double xx = tallCubeCenter.x();
+	double yy = tallCubeCenter.y();
+	double zz = tallCubeCenter.z();
+	tfShortCube.tranlate(-xx, -yy, -zz);
+	tfShortCube.rotateY(-18);
+	tfShortCube.tranlate(xx, yy, zz);
+	tfShortCube.end();
+
+
+	InstanceFactory* instanceTallCube = new InstanceFactory(tallCube,transformTallCube);
+	InstanceFactory* instanceShortCube = new InstanceFactory(shortCube,tfShortCube);
 	cornellboxScene.add(leftwall);
 	cornellboxScene.add(rightwall);
 	cornellboxScene.add(buttomwall);
 	cornellboxScene.add(topwall);
 	cornellboxScene.add(backwall);
 	cornellboxScene.add(lightwall);
-	cornellboxScene.add(tallCube);
-	cornellboxScene.add(shortCube);
-
+	//cornellboxScene.add(tallCube);
+	cornellboxScene.add(instanceTallCube);
+	//cornellboxScene.add(shortCube);
+	cornellboxScene.add(instanceShortCube);
 
 	return cornellboxScene;
 }
@@ -246,6 +275,8 @@ Matrix b(1, 0, 0, 4,
 		0, 1, 0, 5,
 		0, 0, 1, 6,
 		0, 0, 0, 1);
+
+Matrix tb = b.transpose();
 Matrix c = multiply(a,b);
 double adet = a.det();
 a.inverse();

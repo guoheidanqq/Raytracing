@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include <vector>
 #include <limits>
+#include "Vec3.h"
 class InstanceFactory : public IHittable {
 public:
 	InstanceFactory(IHittable* originObj,Transform transform) {
@@ -16,8 +17,37 @@ public:
 
 
 	virtual bool hit(const Ray& ray, HitInfo& hitInfo, double tMin, double tMax) override {
-	
-		return false;
+		Ray transRay;
+		Point3 transPoint;
+		Vec3 transNormal;
+		HitInfo transHitInfo;
+
+		double transHitTime;
+		double hitTime;
+		Point3 point;
+		Vec3 N;		
+		transRay.origin = this->transform.inverseApplyToPoint(ray.origin);
+		transRay.dir = this->transform.inverseApplyToVector(ray.dir);
+		transRay.dir = normal(transRay.dir);
+		double timeScale = transRay.dir.length();
+		double transTMin = tMin * timeScale;
+		double transTMax = tMax * timeScale;
+		bool isHit = originObj->hit(transRay,transHitInfo,transTMin, transTMax);
+		
+		transPoint = transHitInfo.hitPoint;
+		transNormal = transHitInfo.N;
+		transHitTime = transHitInfo.hitTime;
+		point = transform.applyToPoint(transPoint);
+		N = transform.applyToNormal(transNormal);
+		hitTime = transHitTime / timeScale;
+
+		hitInfo = transHitInfo;
+		hitInfo.hitPoint = point;
+		hitInfo.N = N;
+		hitInfo.hitTime = hitTime;
+
+		return isHit;
+
 	}
 	virtual bool hitBoundingBox(const Ray& ray, double tMin, double tMax) const override {
 		bool isHit = this->boundingBox.hit(ray, tMin, tMax);

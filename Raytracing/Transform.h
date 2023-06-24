@@ -112,6 +112,19 @@ public:
 		return result;
 	}
 
+	Matrix transpose() {
+	
+		Matrix tMat;
+		for(int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++) {
+				tMat.mat[i][j] = this->mat[j][i];
+			
+			}
+		
+		return tMat;
+	
+	}
+
 public:
 	double mat[4][4];
 };
@@ -262,8 +275,90 @@ public:
 	}
 
 
+	Point3 inverseApplyToPoint(const Point3& point) {
+		double a = invTransMat.mat[0][0];
+		double b = invTransMat.mat[0][1];
+		double c = invTransMat.mat[0][2];
+		double d = invTransMat.mat[0][3];
+		double e = invTransMat.mat[1][0];
+		double f = invTransMat.mat[1][1];
+		double g = invTransMat.mat[1][2];
+		double h = invTransMat.mat[1][3];
+		double i = invTransMat.mat[2][0];
+		double j = invTransMat.mat[2][1];
+		double k = invTransMat.mat[2][2];
+		double l = invTransMat.mat[2][3];
+		double m = invTransMat.mat[3][0];
+		double n = invTransMat.mat[3][1];
+		double o = invTransMat.mat[3][2];
+		double p = invTransMat.mat[3][3];
+		double x = point.x();
+		double y = point.y();
+		double z = point.z();
+		double newX = a * x + b * y + c * z + d;
+		double newY = e * x + f * y + g * z + h;
+		double newZ = i * x + j * y + k * z + l;
+		double newW = m * x + n * y + o * z + p;
 
+		return Point3(newX, newY, newZ);
+	}
 
+	Vec3 inverseApplyToVector(const Vec3& vec) {
+		double a = invTransMat.mat[0][0];
+		double b = invTransMat.mat[0][1];
+		double c = invTransMat.mat[0][2];
+		double d = invTransMat.mat[0][3];
+		double e = invTransMat.mat[1][0];
+		double f = invTransMat.mat[1][1];
+		double g = invTransMat.mat[1][2];
+		double h = invTransMat.mat[1][3];
+		double i = invTransMat.mat[2][0];
+		double j = invTransMat.mat[2][1];
+		double k = invTransMat.mat[2][2];
+		double l = invTransMat.mat[2][3];
+		double m = invTransMat.mat[3][0];
+		double n = invTransMat.mat[3][1];
+		double o = invTransMat.mat[3][2];
+		double p = invTransMat.mat[3][3];
+		double x = vec.x();
+		double y = vec.y();
+		double z = vec.z();
+		double newX = a * x + b * y + c * z;
+		double newY = e * x + f * y + g * z;
+		double newZ = i * x + j * y + k * z;
+		double newW = m * x + n * y + o * z;
+
+		return Vec3(newX, newY, newZ);
+	}
+
+	Vec3 applyToNormal(const Vec3& normal) {
+		Matrix invMT = invTransMat.transpose();
+		double a = invMT.mat[0][0];
+		double b = invMT.mat[0][1];
+		double c = invMT.mat[0][2];
+		double d = invMT.mat[0][3];
+		double e = invMT.mat[1][0];
+		double f = invMT.mat[1][1];
+		double g = invMT.mat[1][2];
+		double h = invMT.mat[1][3];
+		double i = invMT.mat[2][0];
+		double j = invMT.mat[2][1];
+		double k = invMT.mat[2][2];
+		double l = invMT.mat[2][3];
+		double m = invMT.mat[3][0];
+		double n = invMT.mat[3][1];
+		double o = invMT.mat[3][2];
+		double p = invMT.mat[3][3];
+		double x = normal.x();
+		double y = normal.y();
+		double z = normal.z();
+		double newX = a * x + b * y + c * z;
+		double newY = e * x + f * y + g * z;
+		double newZ = i * x + j * y + k * z;
+		double newW = m * x + n * y + o * z;
+
+		return Vec3(newX, newY, newZ);
+	}
 public:
 
 	Matrix transMat;
