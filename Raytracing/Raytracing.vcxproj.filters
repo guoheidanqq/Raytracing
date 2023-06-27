@@ -90,6 +90,12 @@
     <ClInclude Include="InstanceFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IsotropicVolume.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeRegion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CheckerTexture.cpp">
@@ -156,6 +162,12 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="InstanceFactory.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IsotropicVolume.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VolumeRegion.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

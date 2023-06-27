@@ -21,7 +21,8 @@
 #include "Cube.h"
 #include "Transform.h"
 #include "InstanceFactory.h"
-
+#include "IsotropicVolume.h"
+#include "VolumeRegion.h"
 
 using namespace std;
 
@@ -197,6 +198,10 @@ Scene cornellbox() {
 	Lambertian* white = new Lambertian(Color(0.73f,0.73f,0.73f));
 	Lambertian* green = new Lambertian(Color(0.12f,0.45f,0.15f));
 	DiffuseLight* light = new DiffuseLight(new SolidColor(10.f,10.f,10.f));
+	IsotropicVolume* isoVolumeRed = new IsotropicVolume(new SolidColor(0.0f,0.f,0.f));
+	IsotropicVolume* isoVolumeGreen = new IsotropicVolume(new SolidColor(1.f,1.6f,1.f));
+
+
 
 	RectangleX* leftwall = new RectangleX(555.f, 0.f, 0.f, 555.f, 555.f, 555.f, green,false);// reverse front face
 	RectangleX* rightwall = new RectangleX(0.f,0.f,0.f,0.f,555.f,555.f,red,true);
@@ -208,8 +213,17 @@ Scene cornellbox() {
 	
 	Cube* shortCube=new Cube(Point3(130, 0, 65),Point3(295, 165, 230),white);
 	Cube* tallCube = new Cube(Point3(265, 0, 295),Point3(430, 330, 460),white);
+
+
+
 	Point3 shortCubeCenter = (Point3(130, 0, 65) + Point3(295, 165, 230)) / 2.f;
 	Point3 tallCubeCenter = (Point3(265, 0, 295) + Point3(430, 330, 460)) / 2.f;
+
+	Sphere* sphereshort = new Sphere(shortCubeCenter, 50,green);
+	Sphere* spheretall = new Sphere(shortCubeCenter,50,red);
+	double density = 0.01f;
+	VolumeRegion* shortCubeVolume = new VolumeRegion(sphereshort, isoVolumeRed, density);
+	VolumeRegion* tallCubeVolume = new VolumeRegion(spheretall, isoVolumeGreen, density);
 
 	Transform transformTallCube;
 	transformTallCube.begin();
@@ -243,9 +257,13 @@ Scene cornellbox() {
 	cornellboxScene.add(backwall);
 	cornellboxScene.add(lightwall);
 	//cornellboxScene.add(tallCube);
-	cornellboxScene.add(instanceTallCube);
+	//cornellboxScene.add(instanceTallCube);
 	//cornellboxScene.add(shortCube);
-	cornellboxScene.add(instanceShortCube);
+	//cornellboxScene.add(instanceShortCube);
+	cornellboxScene.add(shortCubeVolume);
+	cornellboxScene.add(tallCubeVolume);
+	cornellboxScene.add(sphereshort);
+	cornellboxScene.add(spheretall);
 
 	return cornellboxScene;
 }
@@ -394,8 +412,8 @@ objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
 
 
 //renderer
-int SUB_SAMPLING_NUM = 100;
-int levels = 10;
+int SUB_SAMPLING_NUM = 1;
+int levels = 5;
 cout<<"P3"<<endl;
 cout<<Width;
 cout<<" ";

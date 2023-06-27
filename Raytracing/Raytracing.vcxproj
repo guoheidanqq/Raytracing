@@ -137,6 +137,7 @@
     <ClInclude Include="IHittable.h" />
     <ClInclude Include="ImageTexture.h" />
     <ClInclude Include="InstanceFactory.h" />
+    <ClInclude Include="IsotropicVolume.h" />
     <ClInclude Include="Labertian.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Metal.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Tools.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vec3.h" />
+    <ClInclude Include="VolumeRegion.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BVH_H.cpp" />
@@ -162,6 +164,7 @@
     <ClCompile Include="IHittable.cpp" />
     <ClCompile Include="ImageTexture.cpp" />
     <ClCompile Include="InstanceFactory.cpp" />
+    <ClCompile Include="IsotropicVolume.cpp" />
     <ClCompile Include="Lambertian.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -176,6 +179,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tools.cpp" />
     <ClCompile Include="Vec3.cpp" />
+    <ClCompile Include="VolumeRegion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="earthmap.jpg" />
