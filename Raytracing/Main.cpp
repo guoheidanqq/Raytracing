@@ -219,8 +219,8 @@ Scene cornellbox() {
 	Point3 shortCubeCenter = (Point3(130, 0, 65) + Point3(295, 165, 230)) / 2.f;
 	Point3 tallCubeCenter = (Point3(265, 0, 295) + Point3(430, 330, 460)) / 2.f;
 
-	Sphere* sphereshort = new Sphere(shortCubeCenter, 50,green);
-	Sphere* spheretall = new Sphere(shortCubeCenter,50,red);
+	Sphere* sphereshort = new Sphere(shortCubeCenter, 100,green);
+	Sphere* spheretall = new Sphere(tallCubeCenter,100,red);
 	double density = 0.01f;
 	VolumeRegion* shortCubeVolume = new VolumeRegion(sphereshort, isoVolumeRed, density);
 	VolumeRegion* tallCubeVolume = new VolumeRegion(spheretall, isoVolumeGreen, density);
@@ -262,8 +262,8 @@ Scene cornellbox() {
 	//cornellboxScene.add(instanceShortCube);
 	cornellboxScene.add(shortCubeVolume);
 	cornellboxScene.add(tallCubeVolume);
-	cornellboxScene.add(sphereshort);
-	cornellboxScene.add(spheretall);
+	//cornellboxScene.add(sphereshort);
+	//cornellboxScene.add(spheretall);
 
 	return cornellboxScene;
 }
