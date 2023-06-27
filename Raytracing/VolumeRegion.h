@@ -32,10 +32,12 @@ class  VolumeRegion : public IHittable {
 			if (isHit == true) {
 
 				bool isHit0 = volumeRegion->hit(ray, hitInfo0, 0.f, +infinity);
-				
+
+				t0 = hitInfo0.hitTime;//bug
+
 				bool isHit1 = volumeRegion->hit(ray, hitInfo1, t0 + 0.01, +infinity);
 				
-				t0 = hitInfo0.hitTime;//bug
+				
 				t1 = hitInfo1.hitTime;
 
 				//ray origion outside the boundary
