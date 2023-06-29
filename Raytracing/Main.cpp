@@ -198,8 +198,8 @@ Scene cornellbox() {
 	Lambertian* white = new Lambertian(Color(0.73f,0.73f,0.73f));
 	Lambertian* green = new Lambertian(Color(0.12f,0.45f,0.15f));
 	DiffuseLight* light = new DiffuseLight(new SolidColor(10.f,10.f,10.f));
-	IsotropicVolume* isoVolumeRed = new IsotropicVolume(new SolidColor(0.0f,0.f,0.f));
-	IsotropicVolume* isoVolumeGreen = new IsotropicVolume(new SolidColor(1.f,1.6f,1.f));
+	IsotropicVolume* isoVolumeSmoke = new IsotropicVolume(new SolidColor(0.0f,0.f,0.f));
+	IsotropicVolume* isoVolumeFog = new IsotropicVolume(new SolidColor(1.f,1.6f,1.f));
 
 
 
@@ -221,9 +221,9 @@ Scene cornellbox() {
 
 	Sphere* sphereshort = new Sphere(shortCubeCenter, 100,green);
 	Sphere* spheretall = new Sphere(tallCubeCenter,100,red);
-	double density = 0.01f;
-	VolumeRegion* shortCubeVolume = new VolumeRegion(sphereshort, isoVolumeRed, density);
-	VolumeRegion* tallCubeVolume = new VolumeRegion(spheretall, isoVolumeGreen, density);
+	//double density = 0.01f;
+	//double density = 0.001f;
+	double density = 10.f;
 
 	Transform transformTallCube;
 	transformTallCube.begin();
@@ -237,11 +237,9 @@ Scene cornellbox() {
 
 	Transform tfShortCube;
 	tfShortCube.begin();
-
-
-	double xx = tallCubeCenter.x();
-	double yy = tallCubeCenter.y();
-	double zz = tallCubeCenter.z();
+	double xx = shortCubeCenter.x();
+	double yy = shortCubeCenter.y();
+	double zz = shortCubeCenter.z();
 	tfShortCube.tranlate(-xx, -yy, -zz);
 	tfShortCube.rotateY(-18);
 	tfShortCube.tranlate(xx, yy, zz);
@@ -250,6 +248,21 @@ Scene cornellbox() {
 
 	InstanceFactory* instanceTallCube = new InstanceFactory(tallCube,transformTallCube);
 	InstanceFactory* instanceShortCube = new InstanceFactory(shortCube,tfShortCube);
+	InstanceFactory* instanceTallSphere = new InstanceFactory(spheretall,transformTallCube);
+	InstanceFactory* instanceShortSphere = new InstanceFactory(sphereshort,tfShortCube);
+
+	VolumeRegion* shortSphereVolume = new VolumeRegion(sphereshort, isoVolumeFog, density);
+    VolumeRegion* tallSphereVolume = new VolumeRegion(spheretall, isoVolumeSmoke, density);
+
+	VolumeRegion* shortCubeVolume = new VolumeRegion(shortCube, isoVolumeFog, density);
+	VolumeRegion* tallCubeVolume = new VolumeRegion(tallCube, isoVolumeSmoke, density);
+
+	VolumeRegion* tfShortCubeVolume = new VolumeRegion(instanceShortCube,isoVolumeFog,density);
+	VolumeRegion* tfTallCubeVolume = new VolumeRegion(instanceTallCube,isoVolumeSmoke,density);
+
+	VolumeRegion* tfShortSphere = new VolumeRegion(instanceShortSphere,isoVolumeFog,density);
+	VolumeRegion* tfTallSphere = new VolumeRegion(instanceTallSphere,isoVolumeSmoke,density);
+
 	cornellboxScene.add(leftwall);
 	cornellboxScene.add(rightwall);
 	cornellboxScene.add(buttomwall);
@@ -260,8 +273,19 @@ Scene cornellbox() {
 	//cornellboxScene.add(instanceTallCube);
 	//cornellboxScene.add(shortCube);
 	//cornellboxScene.add(instanceShortCube);
+	
 	cornellboxScene.add(shortCubeVolume);
 	cornellboxScene.add(tallCubeVolume);
+	
+
+	//cornellboxScene.add(shortSphereVolume);
+	//cornellboxScene.add(tallSphereVolume);
+	
+	//cornellboxScene.add(tfShortCubeVolume);
+	//cornellboxScene.add(tfTallCubeVolume);
+
+	//cornellboxScene.add(tfShortSphere);
+	//cornellboxScene.add(tfTallSphere);
 	//cornellboxScene.add(sphereshort);
 	//cornellboxScene.add(spheretall);
 
