@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e5e93463-3cc1-4363-aba5-e1e62ce1b387}</ProjectGuid>
-    <RootNamespace>Raytracing</RootNamespace>
+    <ProjectGuid>{8b81e587-a197-43f0-b213-577c214c6b0c}</ProjectGuid>
+    <RootNamespace>RaytracingTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\Raytracing;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,64 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AABB.h" />
-    <ClInclude Include="BVH.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CheckerTexture.h" />
-    <ClInclude Include="Cube.h" />
-    <ClInclude Include="DiffuseLight.h" />
-    <ClInclude Include="Glass.h" />
-    <ClInclude Include="IHittable.h" />
-    <ClInclude Include="ImageTexture.h" />
-    <ClInclude Include="InstanceFactory.h" />
-    <ClInclude Include="IsotropicVolume.h" />
-    <ClInclude Include="Labertian.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Metal.h" />
-    <ClInclude Include="PerlinNoise.h" />
-    <ClInclude Include="Ray.h" />
-    <ClInclude Include="RectangleX.h" />
-    <ClInclude Include="RectangleY.h" />
-    <ClInclude Include="RectangleZ.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SolidColor.h" />
-    <ClInclude Include="Sphere.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Tools.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Vec3.h" />
-    <ClInclude Include="VolumeRegion.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BVH_H.cpp" />
-    <ClCompile Include="CheckerTexture.cpp" />
-    <ClCompile Include="Cube.cpp" />
-    <ClCompile Include="DiffuseLight.cpp" />
-    <ClCompile Include="Glass.cpp" />
-    <ClCompile Include="IHittable.cpp" />
-    <ClCompile Include="ImageTexture.cpp" />
-    <ClCompile Include="InstanceFactory.cpp" />
-    <ClCompile Include="IsotropicVolume.cpp" />
-    <ClCompile Include="Lambertian.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Metal.cpp" />
-    <ClCompile Include="PerlinNoise.cpp" />
-    <ClCompile Include="Ray.cpp" />
-    <ClCompile Include="RectangleX.cpp" />
-    <ClCompile Include="RectangleY.cpp" />
-    <ClCompile Include="RectangleZ.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SolidColor.cpp" />
-    <ClCompile Include="Sphere.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Tools.cpp" />
-    <ClCompile Include="Vec3.cpp" />
-    <ClCompile Include="VolumeRegion.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="earthmap.jpg" />
+    <ClCompile Include="TestMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

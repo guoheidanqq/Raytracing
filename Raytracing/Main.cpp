@@ -293,14 +293,28 @@ Scene cornellbox() {
 }
 
 
+Scene two_perlin_spheres() {
+
+	Lambertian* groundMaterial = new Lambertian(Color(0.5f, 0.f, 0.f));
+	Lambertian* perlinMaterial = new Lambertian(Color(0.f,0.5f,0.f));
+	Sphere* ground = new Sphere(Point3(0.f,-1000.f,0.f),1000.f,groundMaterial);
+	Sphere* perlin = new Sphere(Point3(0.f,2.f,0.f),2.f,perlinMaterial);
+
+	Scene perlinScene;
+	perlinScene.add(ground);
+	perlinScene.add(perlin);
+
+	return perlinScene;
+}
 
 
 
 int main(){
 //Camera cam(150.f);
-Camera cam(40.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
+//Camera cam(40.f,Point3(278.f,278.f,-800.f),Point3(278.f,278.f,0.f),Vec3(0.f,1.f,0.f));
 //Camera cam;
 
+Camera cam(20.f, Point3(13.f, 2.f, 3.f), Point3(0.f, 0.f, 0.f), Vec3(0.f, 1.f, 0.f));
 
 // random scene render camera
 //Camera cam(30.f,Point3(13.f,2.f,3.f),Point3(0.f,0.f,0.f),Vec3(0.f,1.f,0.f));
@@ -366,8 +380,9 @@ BVH* bvhCornelbox = new BVH(cornelboxScene);
 
 
 Scene scene;
-scene = cornelboxScene;
+//scene = cornelboxScene;
 //scene.add(bvhCornelbox);
+scene = two_perlin_spheres();
 
 
 
