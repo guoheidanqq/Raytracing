@@ -9,11 +9,11 @@ public:
 	PerlinNoise() {
 		const int size = 256;
 		data = new double[size];
-		dataX = new double[size];
-		dataY = new double[size];
-		dataZ = new double[size];
+		dataX = new int[size];
+		dataY = new int[size];
+		dataZ = new int[size];
 		for (int i = 0; i < size; i++) {
-			data[i] = i;
+			data[i] = (double)i/255.f;
 			dataX[i] = i;
 			dataY[i] = i;
 			dataZ[i] = i;
@@ -37,12 +37,35 @@ public:
 	}
 
 	double noise1D(double x) {
-		return 1.f;
+		int intX = (int)x;
+		int indexX = intX % 255;
+		if (indexX < 0) {
+			indexX = indexX + 255;
+		}
+		double result = data[dataX[indexX]];
+		return result;
 	}
 
 	double noise2D(double x, double y){
 	
-		return 1.f;
+
+		int xi = (int)x % 255;
+		if (xi < 0) {
+			xi = xi + 255;
+		}
+
+		int yi = (int)y % 255;
+		if (yi < 0) {
+			yi = yi + 255;
+		}
+
+		int datai = dataY[dataX[xi]];
+		//int datai = (xi * yi)%255;
+		// int datai = (xi^yi);
+		double result = data[datai];
+
+
+		return result;
 	}
 
 	double noise3D(double x, double y,double z) {
@@ -53,17 +76,17 @@ public:
 private:
 
 	//fisher yates shuffle method
-	void shuffle_fisher_yates(double* randData) {
+	void shuffle_fisher_yates(int* randData) {
 		const int size = 256;
 		for (int i = 0; i < size; i++) {
 			int choose = rand() % (size-1);
-			double& a = randData[choose];
-			double& b = randData[size - 1 - i];
+			int& a = randData[choose];
+			int& b = randData[size - 1 - i];
 			swap(a, b);
 		}
 	
 	}
-	void swap(double& a, double& b) const
+	void swap(int& a, int& b) const
 	{
 		double tmp = a;
 		a = b;
@@ -81,11 +104,21 @@ public:
 	
 	}
 
+	void display(const int* arr) const {
+		const int size = 256;
+		for (int i = 0; i < size; i++) {
+			std::cout << arr[i] << " ";
+
+		}
+		std::cout << std::endl;
+
+	}
+
 public:
 	double* data;
-	double* dataX;
-	double* dataY;
-	double* dataZ;
+	int* dataX;
+	int* dataY;
+	int* dataZ;
 
 
 };

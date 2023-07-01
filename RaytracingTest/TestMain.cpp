@@ -12,6 +12,11 @@ int main() {
 	perlin.display(perlin.dataY);
 	perlin.display(perlin.dataZ);
 
+	double x = -10;
+	double d = perlin.noise1D(x);
+	cout << d << endl;
+
+
 	system("pause");
 	return 0;
 }
