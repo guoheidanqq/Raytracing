@@ -2,6 +2,7 @@
 #define TOOLS_H
 #include <cstdlib>
 #include "Vec3.h"
+#include "IHittable.h"
 
 double radian2degree(double radian) {
 	const double pi = 3.1415926f;
@@ -139,6 +140,47 @@ int random012(double a, double b, double c) {
 
 }
 
+double lerp(double a, double b, double t) {
+
+	double result = a + (b - a) * t;
+	return result;
+}
+
+
+double smoothstep(double a, double b, double t) {
+
+	double result = (b - a) * t * t*(3 - 2 * t) + a;
+	return result;
+}
+
+
+
+double lerp2D(double f00, double f01, double f10, double f11,double tx,double ty) {
+
+	double f0 = lerp(f00, f01, ty);
+	double f1 = lerp(f10, f11, ty);
+	double result = lerp(f0, f1, tx);
+	return result;
+}
+
+
+
+double lerp3D(double f000,double f001,double f010,double f011,
+			  double f100,double f101,double f110,double f111,
+				double tx,double ty,double tz) {
+
+	double f00 = lerp(f000, f001, tz);
+	double f01 = lerp(f010,f011,tz);
+	double f10 = lerp(f100,f101,tz);
+	double f11 = lerp(f110,f111,tz);
+	double result = lerp2D(f00,f01,f10,f11,tx,ty);
+	return result;
+}
+
+double tx(double x0, double x1, double x) {
+	double result = (x - x0) / (x1 - x0);
+	return result;
+}
 
 
 

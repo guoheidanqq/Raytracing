@@ -23,6 +23,7 @@
 #include "InstanceFactory.h"
 #include "IsotropicVolume.h"
 #include "VolumeRegion.h"
+#include "PerlinNoiseTexture.h"
 
 using namespace std;
 
@@ -295,10 +296,16 @@ Scene cornellbox() {
 
 Scene two_perlin_spheres() {
 
-	Lambertian* groundMaterial = new Lambertian(Color(0.5f, 0.f, 0.f));
-	Lambertian* perlinMaterial = new Lambertian(Color(0.f,0.5f,0.f));
+	double scalex = 4.f;
+	double scaley = 4.f;
+	double scalez = 4.f;
+	PerlinNoiseTexture* perlinGroundTex0 = new PerlinNoiseTexture();
+	PerlinNoiseTexture* perlinSphereTex1 = new PerlinNoiseTexture(scalex, scaley, scalez);
+	Lambertian* groundMaterial = new Lambertian(perlinGroundTex0);
+	Lambertian* sphereMaterial = new Lambertian(perlinSphereTex1);
+
 	Sphere* ground = new Sphere(Point3(0.f,-1000.f,0.f),1000.f,groundMaterial);
-	Sphere* perlin = new Sphere(Point3(0.f,2.f,0.f),2.f,perlinMaterial);
+	Sphere* perlin = new Sphere(Point3(0.f,2.f,0.f),2.f,sphereMaterial);
 
 	Scene perlinScene;
 	perlinScene.add(ground);
@@ -451,7 +458,7 @@ objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
 
 
 //renderer
-int SUB_SAMPLING_NUM = 1;
+int SUB_SAMPLING_NUM = 10;
 int levels = 5;
 cout<<"P3"<<endl;
 cout<<Width;

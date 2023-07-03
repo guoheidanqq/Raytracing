@@ -18,5 +18,8 @@
     <ClCompile Include="TestMain.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="PerlinNoiseTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -142,6 +142,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Metal.h" />
     <ClInclude Include="PerlinNoise.h" />
+    <ClInclude Include="PerlinNoiseTexture.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RectangleX.h" />
     <ClInclude Include="RectangleY.h" />
