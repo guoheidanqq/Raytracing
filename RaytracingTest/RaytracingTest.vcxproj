@@ -128,7 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="PerlinNoiseTexture.cpp" />
     <ClCompile Include="TestMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

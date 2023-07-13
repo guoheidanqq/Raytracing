@@ -62,6 +62,20 @@ double clamp(double x) {
 
 }
 
+
+double clamp(double x,double a,double b) {
+	if (x <= a) {
+		x = a;
+
+	}
+	if (x >= b) {
+		x = b;
+	}
+
+	return x;
+
+}
+
 double rand01(){
 	double result = double(rand())/double(RAND_MAX + 1.0f);
 	return result;
@@ -146,6 +160,11 @@ double lerp(double a, double b, double t) {
 	return result;
 }
 
+Vec3 lerpVec3(const Vec3& a, const Vec3& b, double t) {
+	Vec3 result = a + (b - a) * t;
+	return result;
+}
+
 
 double smoothstep(double a, double b, double t) {
 
@@ -154,6 +173,25 @@ double smoothstep(double a, double b, double t) {
 }
 
 
+
+double smoothstep2D(double f00, double f01,double f10,double f11, double tx,double ty) {
+
+	double f0 = smoothstep(f00, f01, ty);
+	double f1 = smoothstep(f10, f11, ty);
+	double result = smoothstep(f0, f1, tx);
+	return result;
+}
+double smoothstep3D(double f000, double f001, double f010, double f011,
+	double f100, double f101, double f110, double f111,
+	double tx, double ty, double tz) {
+
+	double f00 = smoothstep(f000, f001, tz);
+	double f01 = smoothstep(f010, f011, tz);
+	double f10 = smoothstep(f100, f101, tz);
+	double f11 = smoothstep(f110, f111, tz);
+	double result = smoothstep2D(f00, f01, f10, f11, tx, ty);
+	return result;
+}
 
 double lerp2D(double f00, double f01, double f10, double f11,double tx,double ty) {
 

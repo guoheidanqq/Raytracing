@@ -139,6 +139,7 @@
     <ClInclude Include="InstanceFactory.h" />
     <ClInclude Include="IsotropicVolume.h" />
     <ClInclude Include="Labertian.h" />
+    <ClInclude Include="MarbleTexture.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Metal.h" />
     <ClInclude Include="PerlinNoise.h" />
@@ -156,8 +157,11 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="VolumeRegion.h" />
+    <ClInclude Include="WoodTexture.h" />
+    <ClInclude Include="WorleyNoise.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\RaytracingTest\PerlinNoiseTexture.cpp" />
     <ClCompile Include="BVH_H.cpp" />
     <ClCompile Include="CheckerTexture.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -169,6 +173,7 @@
     <ClCompile Include="IsotropicVolume.cpp" />
     <ClCompile Include="Lambertian.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MarbleTexture.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Metal.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
@@ -183,6 +188,8 @@
     <ClCompile Include="Tools.cpp" />
     <ClCompile Include="Vec3.cpp" />
     <ClCompile Include="VolumeRegion.cpp" />
+    <ClCompile Include="WoodTexture.cpp" />
+    <ClCompile Include="WorleyNoise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="earthmap.jpg" />

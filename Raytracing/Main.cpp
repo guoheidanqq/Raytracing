@@ -24,6 +24,8 @@
 #include "IsotropicVolume.h"
 #include "VolumeRegion.h"
 #include "PerlinNoiseTexture.h"
+#include "MarbleTexture.h"
+#include "WoodTexture.h"
 
 using namespace std;
 
@@ -301,12 +303,18 @@ Scene two_perlin_spheres() {
 	double scalez = 4.f;
 	PerlinNoiseTexture* perlinGroundTex0 = new PerlinNoiseTexture();
 	PerlinNoiseTexture* perlinSphereTex1 = new PerlinNoiseTexture(scalex, scaley, scalez);
+	MarbleTexture* marbleSphereTex = new MarbleTexture(5);
+	WoodTexture* woodSphereTex = new WoodTexture();
 	Lambertian* groundMaterial = new Lambertian(perlinGroundTex0);
 	Lambertian* sphereMaterial = new Lambertian(perlinSphereTex1);
-
-	Sphere* ground = new Sphere(Point3(0.f,-1000.f,0.f),1000.f,groundMaterial);
-	Sphere* perlin = new Sphere(Point3(0.f,2.f,0.f),2.f,sphereMaterial);
-
+	Lambertian* sphereMarbleMaterial = new Lambertian(marbleSphereTex);
+	Lambertian* woodMaterial = new Lambertian(woodSphereTex);
+	//Sphere* ground = new Sphere(Point3(0.f,-1000.f,0.f),1000.f,groundMaterial);
+	//Sphere* perlin = new Sphere(Point3(0.f,2.f,0.f),2.f,sphereMaterial);
+	//Sphere* ground = new Sphere(Point3(0.f, -1000.f, 0.f), 1000.f, sphereMarbleMaterial);
+	//Sphere* perlin = new Sphere(Point3(0.f, 2.f, 0.f), 2.f, sphereMarbleMaterial);
+	Sphere* ground = new Sphere(Point3(0.f, -1000.f, 0.f), 1000.f, woodMaterial);
+	Sphere* perlin = new Sphere(Point3(0.f, 2.f, 0.f), 2.f, woodMaterial);
 	Scene perlinScene;
 	perlinScene.add(ground);
 	perlinScene.add(perlin);
